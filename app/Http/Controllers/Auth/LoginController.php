@@ -4,52 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests;
+use App\Repositories\UserRepository;
 use Session;
-
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    private $userRepository;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(UserRepository $userRepository = null)
     {
-        $this->middleware('guest')->except('logout');
+        $this->userRepository = ($userRepository === null) ? new UserRepository : $userRepository;
     }
+
     public function createCustomToken($uid) {
-        $firebase = $this->getFirebase();
-        $token = $firebase->getAuth()->createCustomToken($uid);
+        $token = $this->userRepository->getUserToken($uid);
         return $customToken = (string) $token;
     }
+
     public function getLogin () {
         return view('page.login');
     }
+
     public function postLogin (Request $request) {
-        $firebase = $this->getFirebase();
-        $data = $firebase->getDatabase()->getReference('user');
+        $data = $this->userRepository->getUserData();
         $user_detail = $data->orderByChild('email')->equalTo($request->email)->getValue();
         $users = array_values($user_detail);
         $user = $users[0];
@@ -60,13 +37,14 @@ class LoginController extends Controller
         $request->session()->put('name', $user['name']);
         $request->session()->put('login', true);
         if (Hash::check($request->password, $user['password']) && ($user['email'] = $request->email)) {
-            return redirect('home');
+            return redirect('/');
         } else {
-            return redirect()->back()->with(['flag' => 'danger', 'message' => 'Đăng nhập không thành công']);
+            return redirect('login')->with(['flag' => 'danger', 'message' => 'Đăng nhập không thành công']);
         }
     }
+
     public function getLogout (Request $request) {
         $request->session()->flush();
-        return redirect('home');
+        return redirect('/');
     }
 }

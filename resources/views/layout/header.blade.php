@@ -94,74 +94,50 @@
                         <!-- Start Shopping Cart -->
                         <div class="block-minicart minicart__active">
                             <div class="minicart-content-wrapper">
-                                <div class="micart__close">
-                                    <span>close</span>
-                                </div>
-                                <div class="items-total d-flex justify-content-between">
-                                    <span>3 items</span>
-                                    <span>Cart Subtotal</span>
-                                </div>
-                                <div class="total_amount text-right">
-                                    <span>$66.00</span>
-                                </div>
-                                <div class="mini_action checkout">
-                                    <a class="checkout__btn" href="cart.html">Go to Checkout</a>
-                                </div>
-                                <div class="single__items">
-                                    <div class="miniproduct">
-                                        <div class="item01 d-flex">
-                                            <div class="thumb">
-                                                <a href="http://demo.devitems.com/boighor-v2/product-details.html"><img src="images/product/sm-img/1.jpg" alt="product images"></a>
+                                <?php $total = 0 ?>
+                                    @if(session('cart'))
+                                        @foreach(session('cart') as $key => $carts)
+                                            <?php $total += $carts['final_price'] * $carts['quantity'] ?>
+                                            <div class="micart__close">
+                                                <span>close</span>
                                             </div>
-                                            <div class="content">
-                                                <h6><a href="http://demo.devitems.com/boighor-v2/product-details.html">Voyage Yoga Bag</a></h6>
-                                                <span class="prize">$30.00</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <span class="qun">Qty: 01</span>
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a href="index.html#"><i class="zmdi zmdi-settings"></i></a></li>
-                                                        <li><a href="index.html#"><i class="zmdi zmdi-delete"></i></a></li>
-                                                    </ul>
+                                            <div class="single__items">
+                                                <div class="miniproduct">
+                                                    <div class="item01 d-flex mt--20">
+                                                        <div class="thumb">
+                                                            <a href="#"><img src="{{@$carts['image']}}" alt="product images"></a>
+                                                        </div>
+                                                        <div class="content">
+                                                            <h6><a href="#">{{@$carts['title']}}</a></h6>
+                                                            <span class="prize">{{@$carts['final_price']}}</span>
+                                                            <div class="product_prize d-flex justify-content-between">
+                                                                <span class="qun">Số lượng : {{@$carts['quantity']}}</span>
+                                                                <ul class="d-flex justify-content-end">
+                                                                    <li><a href="index.html#"><i class="zmdi zmdi-settings"></i></a></li>
+                                                                    <li><button class="btn btn-sm remove-from-cart" data-id="{{ @$id }}"><i class="fa fa-trash-o"></i></button></li>
+                                                                    {{--<li><a data-id="{{ @$id }}"><i class="zmdi zmdi-delete"></i></a></li>--}}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="item01 d-flex mt--20">
-                                            <div class="thumb">
-                                                <a href="http://demo.devitems.com/boighor-v2/product-details.html"><img src="images/product/sm-img/3.jpg" alt="product images"></a>
+                                            <div class="mini_action cart">
+                                                <a class="cart__btn" href="cart.html">View and edit cart</a>
                                             </div>
-                                            <div class="content">
-                                                <h6><a href="http://demo.devitems.com/boighor-v2/product-details.html">Impulse Duffle</a></h6>
-                                                <span class="prize">$40.00</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <span class="qun">Qty: 03</span>
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a href="index.html#"><i class="zmdi zmdi-settings"></i></a></li>
-                                                        <li><a href="index.html#"><i class="zmdi zmdi-delete"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item01 d-flex mt--20">
-                                            <div class="thumb">
-                                                <a href="http://demo.devitems.com/boighor-v2/product-details.html"><img src="images/product/sm-img/2.jpg" alt="product images"></a>
-                                            </div>
-                                            <div class="content">
-                                                <h6><a href="http://demo.devitems.com/boighor-v2/product-details.html">Compete Track Tote</a></h6>
-                                                <span class="prize">$40.00</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <span class="qun">Qty: 03</span>
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a href="index.html#"><i class="zmdi zmdi-settings"></i></a></li>
-                                                        <li><a href="index.html#"><i class="zmdi zmdi-delete"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
+                                    @endif
+                                    <div class="items-total d-flex justify-content-between">
+                                        <span>3 items</span>
+                                        <span>Cart Subtotal</span>
                                     </div>
-                                </div>
-                                <div class="mini_action cart">
-                                    <a class="cart__btn" href="cart.html">View and edit cart</a>
-                                </div>
+                                    <div class="total_amount text-right">
+                                        <span>{{ @$total }}.000đ</span>
+                                    </div>
+                                    <div class="mini_action checkout">
+                                        <a class="checkout__btn" href="#">Go to Checkout</a>
+                                    </div>
                             </div>
                         </div>
                         <!-- End Shopping Cart -->
@@ -169,52 +145,6 @@
                     <li class="setting__bar__icon"><a class="setting__active" href="index.html#"></a>
                         <div class="searchbar__content setting__block">
                             <div class="content-inner">
-                                <div class="switcher-currency">
-                                    <strong class="label switcher-label">
-                                        <span>Currency</span>
-                                    </strong>
-                                    <div class="switcher-options">
-                                        <div class="switcher-currency-trigger">
-                                            <span class="currency-trigger">USD - US Dollar</span>
-                                            <ul class="switcher-dropdown">
-                                                <li>GBP - British Pound Sterling</li>
-                                                <li>EUR - Euro</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="switcher-currency">
-                                    <strong class="label switcher-label">
-                                        <span>Language</span>
-                                    </strong>
-                                    <div class="switcher-options">
-                                        <div class="switcher-currency-trigger">
-                                            <span class="currency-trigger">English01</span>
-                                            <ul class="switcher-dropdown">
-                                                <li>English02</li>
-                                                <li>English03</li>
-                                                <li>English04</li>
-                                                <li>English05</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="switcher-currency">
-                                    <strong class="label switcher-label">
-                                        <span>Select Store</span>
-                                    </strong>
-                                    <div class="switcher-options">
-                                        <div class="switcher-currency-trigger">
-                                            <span class="currency-trigger">Fashion Store</span>
-                                            <ul class="switcher-dropdown">
-                                                <li>Furniture</li>
-                                                <li>Shoes</li>
-                                                <li>Speaker Store</li>
-                                                <li>Furniture</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="switcher-currency">
                                     <strong class="label switcher-label">
                                         <span>My Account</span>

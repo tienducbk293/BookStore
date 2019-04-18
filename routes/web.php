@@ -11,42 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('home', [
+Route::get('/', [
     'as' => 'homepage',
     'uses' => 'HomeController@index'
 ]);
-Route::get('detail-book/{bookId}', [  //Missing required parameters for [Route: detail] [URI: detail-book/{bookId}].
-    'as' => 'detail',
-    'uses' => 'HomeController@getDetailBook'
-]);
-Route::get('cart/{bookId}', [
-    'as' => 'cart',
-    'uses' => 'HomeControlller@getAddToCart'
-]);
-Route::get('register', [
-    'as' => 'register',
-    'uses' => 'HomeController@getRegister'
-]);
-Route::post('register', [
-    'as' => 'register',
-    'uses' => 'HomeController@postRegister'
-]);
-Route::get('login', [
-    'as' => 'login',
-    'uses' => 'Auth\LoginController@getLogin'
-]);
-Route::post('login', [
-    'as' => 'login',
-    'uses' => 'Auth\LoginController@postLogin'
-]);
-Route::get('logout', [
-    'as' => 'logout',
-    'uses' => 'Auth\LoginController@getLogout'
-]);
+Route::get('detail-book/{id}', 'HomeController@getDetailBook')->name('detail');
+Route::get('cart/{id}', 'CartController@addToCart')->name('cart');
+Route::get('remove-from-cart', 'CartController@removeFromCart');
+Route::get('register', 'Auth\RegisterController@getRegister')->name('register');
+Route::post('register', 'Auth\RegisterController@postRegister')->name('register');
+Route::get('login', 'Auth\LoginController@getLogin')->name('login');
+Route::post('login', 'Auth\LoginController@postLogin')->name('login');
+Route::get('logout', 'Auth\LoginController@getLogout')->name('logout');
 Route::get('custom_token', 'HomeController@createCustomToken');
 Route::get('verify', 'HomeController@verifyIdToken');
 Route::get('list', 'HomeController@listUser');
