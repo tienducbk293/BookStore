@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-require_once('../vendor/autoload.php');
-
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
+use Illuminate\Http\Request;
 use DiDom\Document;
 use Curl\Curl;
 
 class BookController extends Controller
 {
+
     public function crawl_list() {
         set_time_limit(240);
         $target = "https://tiki.vn/sach-truyen-tieng-viet/c316?src=tree&_lc=Vk4wMzQwMjUwMDU%3D&page=1";

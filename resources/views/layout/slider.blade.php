@@ -10,7 +10,7 @@
                             <h2>Buy <span>your </span></h2>
                             <h2>favourite <span>Book </span></h2>
                             <h2>from <span>Here </span></h2>
-                            <a class="shopbtn" href="index.html#">shop now</a>
+                            <a class="shopbtn" href="#">shop now</a>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                             <h2>Buy <span>your </span></h2>
                             <h2>favourite <span>Book </span></h2>
                             <h2>from <span>Here </span></h2>
-                            <a class="shopbtn" href="index.html#">shop now</a>
+                            <a class="shopbtn" href="#">shop now</a>
                         </div>
                     </div>
                 </div>

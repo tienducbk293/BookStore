@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="section__title text-center">
-                    <h2 class="title__be--2">All <span class="color--theme">Products</span></h2>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered lebmid alteration in some ledmid form</p>
+                    <h2 class="title__be--2">Tất cả <span class="color--theme">sản phẩm</span></h2>
+                    <p>Tất cả các cuốn sách ở nhiều thể loại khác nhau, đến từ các nhà xuất bản uy tín và được chắp bút bởi các tác giả tài năng và nổi tiếng</p>
                 </div>
             </div>
         </div>
