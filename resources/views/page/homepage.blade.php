@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    <div id="home_page">
+    <div class="home_page">
         @include('layout.slider')
         @include('page.new_book')
         @include('page.subscribe')

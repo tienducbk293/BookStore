@@ -29,16 +29,6 @@
                                 <li>{{@$all['final_price']}}</li>
                                 <li class="old_prize">{{@$all['price_regular']}}</li>
                             </ul>
-                            <div class="action">
-                                <div class="actions_inner">
-                                    <ul class="add_to_links">
-                                        <li><a class="cart" href="{{route('cart', $all['book_id'])}}"><i class="bi bi-shopping-bag4"></i></a></li>
-                                        <li><a class="wishlist" href="wishlist.html"><i class="bi bi-shopping-cart-full"></i></a></li>
-                                        <li><a class="compare" href="index.html#"><i class="bi bi-heart-beat"></i></a></li>
-                                        <li><a data-toggle="modal" title="Quick View" class="quickview modal-view detail-link" href="index.html#productmodal"><i class="bi bi-search"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
                             <div class="product__hover--content">
                                 <ul class="rating d-flex">
                                     <li class="on"><i class="fa fa-star-o"></i></li>

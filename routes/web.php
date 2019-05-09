@@ -11,13 +11,18 @@
 |
 */
 
-Route::get('/', [
-    'as' => 'homepage',
-    'uses' => 'HomeController@index'
-]);
-Route::get('detail-book/{id}', 'HomeController@getDetailBook')->name('detail');
-Route::get('cart/{id}', 'CartController@addToCart')->name('cart');
-Route::get('remove-from-cart', 'CartController@removeFromCart');
+Route::get('/', 'HomeController@index')->name('homepage');
+Route::get('detail/{id}', 'HomeController@getDetailBook')->name('detail');
+Route::get('cart', 'CartController@cart')->name('cart');
+Route::post('add-to-cart/{id}', 'CartController@postAdd')->name('addtocart');
+Route::patch('update-cart', 'CartController@update');
+Route::delete('remove-from-cart', 'CartController@remove');
+Route::get('add-like/{id}', 'BookController@addLike')->name('addlike');
+Route::get('checkout', 'CheckoutController@checkout')->name('checkout');
+Route::post('checkout', 'CheckoutController@postCheckout')->name('checkout');
+Route::get('check-quantity', 'CheckoutController@checkQuantity');
+Route::get('destroy', 'CartController@destroy');
+Route::get('delete-item-cart', 'CartController@deleteItemCart');
 Route::get('register', 'Auth\RegisterController@getRegister')->name('register');
 Route::post('register', 'Auth\RegisterController@postRegister')->name('register');
 Route::get('login', 'Auth\LoginController@getLogin')->name('login');
