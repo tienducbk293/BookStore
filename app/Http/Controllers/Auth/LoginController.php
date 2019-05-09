@@ -30,10 +30,12 @@ class LoginController extends Controller
         $user_detail = $data->orderByChild('email')->equalTo($request->email)->getValue();
         $users = array_values($user_detail);
         $user = $users[0];
+        $user_key = array_keys($user_detail, $user);
 
         $uid = key($user_detail);
         $customToken = $this->createCustomToken($uid);
         $request->session()->put('token', $customToken);
+        $request->session()->put('user_key', $user_key);
         $request->session()->put('name', $user['name']);
         $request->session()->put('login', true);
         if (Hash::check($request->password, $user['password']) && ($user['email'] = $request->email)) {
@@ -45,6 +47,6 @@ class LoginController extends Controller
 
     public function getLogout (Request $request) {
         $request->session()->flush();
-        return redirect('/');
+        return redirect()->back();
     }
 }

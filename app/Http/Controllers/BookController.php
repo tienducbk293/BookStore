@@ -4,15 +4,25 @@ namespace App\Http\Controllers;
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
+use App\Repositories\BookRepository;
+use App\Repositories\LikeRepository;
 use Illuminate\Http\Request;
 use DiDom\Document;
 use Curl\Curl;
+use mysql_xdevapi\Session;
 
 class BookController extends Controller
 {
+    private $bookRepository;
+    private $likeRepository;
+    public function __construct(BookRepository $bookRepository = null, LikeRepository $likeRepository = null)
+    {
+        $this->bookRepository = ($bookRepository === null) ? new BookRepository() : $bookRepository;
+        $this->likeRepository = ($likeRepository === null) ? new LikeRepository() : $likeRepository;
+    }
 
     public function crawl_list() {
-        set_time_limit(240);
+        set_time_limit(300);
         $target = "https://tiki.vn/sach-truyen-tieng-viet/c316?src=tree&_lc=Vk4wMzQwMjUwMDU%3D&page=1";
         $document = new Document($target, true);
         $books = $document->find('.product-item');
@@ -26,7 +36,8 @@ class BookController extends Controller
                 'price_regular' => null,
                 'category' => null,
                 'detail' => null,
-                'detail_image' => null
+                'detail_image' => null,
+                'quantity' => 30
             );
             $book_id = $document->find('.product-item')[$key]->getAttribute('data-id');
             if (isset($book_id)) {
@@ -44,20 +55,25 @@ class BookController extends Controller
             if (isset($author)) {
                 $book['author'] = trim($author->text());
             }
-            $final_price = $document->find('.product-item')[$key]->first('.final-price');
+            $final_price = $document->find('.product-item')[$key]->first('.final-price')->text();
             if (isset($final_price)) {
-                $book['final_price'] = trim($final_price->text());
+                $explode = explode("-", $final_price);
+                $book['final_price'] = trim($explode[0]);
             }
-            $price_regular = $document->find('.product-item')[$key]->first('.price-regular');
+            $price_regular = $document->find('.product-item')[$key]->first('.price-regular')->text();
             if (isset($price_regular)) {
-                $book['price_regular'] = trim($price_regular->text());
+                $book['price_regular'] = trim($price_regular);
             }
             $category = $document->find('.product-item')[$key]->getAttribute('data-category');
             if (isset($category)) {
                 $explode = explode("/", $category);
-                $array = array_slice($explode, 2);
-                $implode = implode("/", $array);
-                $book['category'] = trim($implode);
+                $arrays = array_slice($explode, 2);
+                $tree_category = array();
+                foreach ($arrays as $key => $array) {
+                    $tree_category[$key]['parent_id'] = $key;
+                    $tree_category[$key]['category'] = $array;
+                }
+                $book['category'] = $tree_category;
             }
             $detail = $this->getBookDetail($book_id);
             if(isset($detail)) {
@@ -67,26 +83,25 @@ class BookController extends Controller
             if(isset($detail_image)) {
                 $book['detail_image'] = trim($detail_image);
             }
-            $firebase = $this->getFirebase();
-            $data = $firebase->getDatabase()->getReference('book');
+            $data = $this->bookRepository->getBookData();
             $data->push($book);
         }
         dd($books);
     }
 
-    public function getDetail ($book_id) {
-        $url = "https://tiki.vn/chao-mung-den-voi-n-h-k-p".$book_id.".html?src=category-page-8322.316&2hi=1";
+    public function getDetail ($id) {
+        $url = "https://tiki.vn/chao-mung-den-voi-n-h-k-p".$id.".html?src=category-page-8322.316&2hi=1";
         $html = $this->getHtml($url);
         return $document1 = new Document($html);
     }
 
-    public function getBookDetail ($book_id) {
-        $document2 = $this->getDetail($book_id);
+    public function getBookDetail ($id) {
+        $document2 = $this->getDetail($id);
         return $details = $document2->first('div#gioi-thieu')->html();
     }
 
-    public function getImageDetail ($book_id) {
-        $document3 = $this->getDetail($book_id);
+    public function getImageDetail ($id) {
+        $document3 = $this->getDetail($id);
         return $detail_images = $document3->first('.product-magiczoom')->getAttribute('src');
     }
 
@@ -103,5 +118,41 @@ class BookController extends Controller
         } catch (\Exception $exception) {
             echo 'getHtml Exception: '. $exception->getMessage(), PHP_EOL;
         }
+    }
+
+    public function addLike(Request $request, $id) {
+        $data = $this->bookRepository->getBookData();
+        $dataLike = $this->likeRepository->getLikeData();
+        $bookData = $data->orderByChild('book_id')->equalTo($id)->getValue();
+        $books = array_values($bookData);
+        $book = $books[0];
+        $user_key = session()->get('user_key');
+        $likeData = $dataLike->orderByChild('book_id')->equalTo($id)->getValue();
+        if (isset($likeData)) {
+            $keys = array_keys($likeData);
+            for ($i = 0; $i < count($likeData); $i++) {
+                if ($likeData[$keys[$i]]['user_key'] === $user_key[0]) {
+                    return redirect()->back()->with('alert', 'Sản phẩm đã tồn tại trong danh sách yêu thích');
+                }
+            }
+        } else {
+            $postLike = [
+                'book_id' => $book['book_id'],
+                'user_key' => $user_key[0],
+                'like' => 1
+            ];
+            $dataLike->push($postLike);
+        }
+        $postLike = [
+            'book_id' => $book['book_id'],
+            'user_key' => $user_key[0],
+            'like' => 1
+        ];
+        $dataLike->push($postLike);
+        return redirect()->back()->with('alert', 'Bạn đã thêm sản phẩm vào danh sách yêu thích');
+    }
+
+    public function deleteLike(Request $request, $id) {
+
     }
 }

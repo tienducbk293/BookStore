@@ -49,17 +49,20 @@
                                     <div class="price-box">
                                         <span>{{@$detail['final_price']}}</span>
                                     </div>
-                                    <div class="box-tocart d-flex">
-                                        <span>Qty</span>
-                                        <input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty" type="number">
-                                        <div class="addtocart__actions">
-                                            <button class="tocart" type="submit" title="Add to Cart">Chọn mua</button>
+                                    <form action="{{ route('addtocart', $detail['book_id']) }}" accept-charset="UTF-8" method="post">
+                                        <input name="_token" type="hidden" value="{{csrf_token()}}" />
+                                        <div class="box-tocart d-flex">
+                                                <span>Số lượng</span>
+                                                <input id="qty" class="input-text qty" name="quantity" min="1" value="1" title="Qty" type="number">
+                                                <div class="addtocart__actions">
+                                                    <button class="tocart" type="submit" title="Add to Cart">Chọn mua</button>
+                                                </div>
+                                                <div class="product-addto-links clearfix">
+                                                    <a class="wishlist" href="@if(Session::has('token') && Session::get('login') == true) {{ route('addlike', $detail['book_id']) }} @else {{ route('login') }} @endif"></a>
+                                                    <a class="compare" href="#"></a>
+                                                </div>
                                         </div>
-                                        <div class="product-addto-links clearfix">
-                                            <a class="wishlist" href="single-product.php#"></a>
-                                            <a class="compare" href="single-product.php#"></a>
-                                        </div>
-                                    </div>
+                                    </form>
                                     <div class="product_meta">
 											<span class="posted_in">Categories:
 												<a href="single-product.php#">Adventure</a>,
@@ -70,22 +73,22 @@
                                         <ul>
                                             <li class="categories-title">Share :</li>
                                             <li>
-                                                <a href="single-product.php#">
+                                                <a href="#">
                                                     <i class="icon-social-twitter icons"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="single-product.php#">
+                                                <a href="#">
                                                     <i class="icon-social-tumblr icons"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="single-product.php#">
+                                                <a href="#">
                                                     <i class="icon-social-facebook icons"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="single-product.php#">
+                                                <a href="#">
                                                     <i class="icon-social-linkedin icons"></i>
                                                 </a>
                                             </li>
@@ -97,8 +100,9 @@
                     </div>
                     <div class="product__info__detailed">
                         <div class="pro_details_nav nav justify-content-start" role="tablist">
-                            <a class="nav-item nav-link active" data-toggle="tab" href="single-product.php#nav-details" role="tab">Chi tiết</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="single-product.php#nav-review" role="tab">Đánh giá</a>
+                            <a class="nav-item nav-link active showDetail" data-toggle="tab" href="single-product.php#nav-details" role="tab">Chi tiết</a>
+                            <a class="nav-item nav-link showComment" data-toggle="tab" href="single-product.php#nav-review" role="tab">Đánh giá</a>
+
                         </div>
                         <div class="tab__container">
                             <!-- Start Single Tab Content -->
@@ -211,6 +215,11 @@
                                 </div>
                             </div>
                             <!-- End Single Tab Content -->
+                        </div>
+                        <div class="hidden">
+                            Comment:
+                            <input type="text">
+                            <button type="submit">Comment</button>
                         </div>
                     </div>
                     <div class="wn__related__product pt--80 pb--50">
