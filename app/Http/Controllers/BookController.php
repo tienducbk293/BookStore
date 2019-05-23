@@ -2,25 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
-use App\Repositories\BookRepository;
-use App\Repositories\LikeRepository;
-use Illuminate\Http\Request;
+use App\Book;
 use DiDom\Document;
-use Curl\Curl;
 use mysql_xdevapi\Session;
 
 class BookController extends Controller
 {
-    private $bookRepository;
-    private $likeRepository;
-    public function __construct(BookRepository $bookRepository = null, LikeRepository $likeRepository = null)
-    {
-        $this->bookRepository = ($bookRepository === null) ? new BookRepository() : $bookRepository;
-        $this->likeRepository = ($likeRepository === null) ? new LikeRepository() : $likeRepository;
-    }
-
     public function crawl_list() {
         set_time_limit(300);
         $target = "https://tiki.vn/sach-truyen-tieng-viet/c316?src=tree&_lc=Vk4wMzQwMjUwMDU%3D&page=1";
@@ -83,7 +70,8 @@ class BookController extends Controller
             if(isset($detail_image)) {
                 $book['detail_image'] = trim($detail_image);
             }
-            $data = $this->bookRepository->getBookData();
+            $bookData = new Book();
+            $data = $bookData->getDatabase();
             $data->push($book);
         }
         dd($books);
@@ -118,41 +106,5 @@ class BookController extends Controller
         } catch (\Exception $exception) {
             echo 'getHtml Exception: '. $exception->getMessage(), PHP_EOL;
         }
-    }
-
-    public function addLike(Request $request, $id) {
-        $data = $this->bookRepository->getBookData();
-        $dataLike = $this->likeRepository->getLikeData();
-        $bookData = $data->orderByChild('book_id')->equalTo($id)->getValue();
-        $books = array_values($bookData);
-        $book = $books[0];
-        $user_key = session()->get('user_key');
-        $likeData = $dataLike->orderByChild('book_id')->equalTo($id)->getValue();
-        if (isset($likeData)) {
-            $keys = array_keys($likeData);
-            for ($i = 0; $i < count($likeData); $i++) {
-                if ($likeData[$keys[$i]]['user_key'] === $user_key[0]) {
-                    return redirect()->back()->with('alert', 'Sản phẩm đã tồn tại trong danh sách yêu thích');
-                }
-            }
-        } else {
-            $postLike = [
-                'book_id' => $book['book_id'],
-                'user_key' => $user_key[0],
-                'like' => 1
-            ];
-            $dataLike->push($postLike);
-        }
-        $postLike = [
-            'book_id' => $book['book_id'],
-            'user_key' => $user_key[0],
-            'like' => 1
-        ];
-        $dataLike->push($postLike);
-        return redirect()->back()->with('alert', 'Bạn đã thêm sản phẩm vào danh sách yêu thích');
-    }
-
-    public function deleteLike(Request $request, $id) {
-
     }
 }

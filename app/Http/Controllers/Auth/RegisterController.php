@@ -8,16 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Repositories\UserRepository;
 class RegisterController extends Controller
 {
     use RegistersUsers;
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepository = null)
-    {
-        $this->userRepository = ($userRepository === null) ? new UserRepository : $userRepository;
-    }
 
     public function getRegister () {
         return view('page.register');
@@ -34,7 +27,8 @@ class RegisterController extends Controller
         $user['name'] = $request->input('name');
         $user['password'] = Hash::make($request->input('password'));
         $user['re_password'] = Hash::make($request->input('re_password'));
-        $data = $this->userRepository->getUserData();
+        $userData = new User();
+        $data = $userData->getDatabase();
         $data->push($user);
         return redirect('login')->with('success', 'Tạo tài khoản thành công');
     }

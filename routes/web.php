@@ -10,6 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\User;
+
+Route::get('user/test', function () {
+   $user = new User();
+   return $user->getDatabase()->getValue();
+});
 
 Route::get('/', 'HomeController@index')->name('homepage');
 Route::get('detail/{id}', 'HomeController@getDetailBook')->name('detail');
@@ -17,10 +23,15 @@ Route::get('cart', 'CartController@cart')->name('cart');
 Route::post('add-to-cart/{id}', 'CartController@postAdd')->name('addtocart');
 Route::patch('update-cart', 'CartController@update');
 Route::delete('remove-from-cart', 'CartController@remove');
-Route::get('add-like/{id}', 'BookController@addLike')->name('addlike');
-Route::get('checkout', 'CheckoutController@checkout')->name('checkout');
-Route::post('checkout', 'CheckoutController@postCheckout')->name('checkout');
-Route::get('check-quantity', 'CheckoutController@checkQuantity');
+Route::get('add-like/{id}', 'LikeController@addLike')->name('addlike');
+Route::get('list-like/{key}', 'LikeController@getListLike')->name('listlike');
+Route::get('comment', 'CommentController@comment')->name('comment');
+Route::post('comment/{id}', 'CommentController@postComment')->name('comment');
+Route::get('list-comment/{id}', 'CommentController@listComment')->name('listcomment');
+Route::post('reply/{id}', 'CommentController@reply')->name('reply');
+Route::get('order', 'OrderController@order')->name('order');
+Route::post('order', 'OrderController@postOrder')->name('order');
+Route::get('check-quantity', 'OrderController@checkQuantity');
 Route::get('destroy', 'CartController@destroy');
 Route::get('delete-item-cart', 'CartController@deleteItemCart');
 Route::get('register', 'Auth\RegisterController@getRegister')->name('register');
@@ -40,3 +51,17 @@ Route::prefix('book')->group(function () {
     Route::get('detail', 'BookController@crawl_detail');
 
 });
+
+Route::prefix('user')->group( function () {
+   Route::get('/', function () {
+      \App\User::create([
+         'name' => 'Nguyen Tien Duc',
+          'email' => 'ducnt@gmail.com',
+          'password' => bcrypt('12345678')
+      ]);
+   });
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
