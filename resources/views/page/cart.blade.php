@@ -67,7 +67,7 @@
                     <div class="cartbox__btn">
                         <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
                             <li><a href="{{ url('/') }}" class="btn"><i class="fa fa-angle-left"></i>Tiếp tục mua hàng</a></li>
-                            <li><a href="@if(Session::has('token') && Session::get('login') == true) {{ route('checkout') }} @else {{ route('login') }} @endif">Thanh toán</a></li>
+                            <li><a href="@if(Session::has('token') && Session::get('login') == true) {{ route('order') }} @else {{ route('login') }} @endif">Thanh toán</a></li>
                         </ul>
                     </div>
                 </div>

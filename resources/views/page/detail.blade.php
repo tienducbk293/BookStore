@@ -49,7 +49,7 @@
                                     <div class="price-box">
                                         <span>{{@$detail['final_price']}}</span>
                                     </div>
-                                    <form action="{{ route('addtocart', $detail['book_id']) }}" accept-charset="UTF-8" method="post">
+                                    <form action="{{ route('addtocart', @$detail['book_id']) }}" accept-charset="UTF-8" method="post">
                                         <input name="_token" type="hidden" value="{{csrf_token()}}" />
                                         <div class="box-tocart d-flex">
                                                 <span>Số lượng</span>
@@ -100,8 +100,8 @@
                     </div>
                     <div class="product__info__detailed">
                         <div class="pro_details_nav nav justify-content-start" role="tablist">
-                            <a class="nav-item nav-link active showDetail" data-toggle="tab" href="single-product.php#nav-details" role="tab">Chi tiết</a>
-                            <a class="nav-item nav-link showComment" data-toggle="tab" href="single-product.php#nav-review" role="tab">Đánh giá</a>
+                            <a class="nav-item nav-link active showDetail" data-toggle="tab" href="" role="tab">Chi tiết</a>
+                            <a class="nav-item nav-link showComment" data-toggle="tab" href="" role="tab">Đánh giá</a>
 
                         </div>
                         <div class="tab__container">
@@ -216,10 +216,22 @@
                             </div>
                             <!-- End Single Tab Content -->
                         </div>
-                        <div class="hidden">
-                            Comment:
-                            <input type="text">
-                            <button type="submit">Comment</button>
+                        <div class="hidden" id="hidden">
+                            <h4>Add comment</h4>
+                            <form action="{{ route('comment', @$detail['book_id']) }}" method="post">
+                                <input name="_token" type="hidden" value="{{csrf_token()}}" />
+                                <div class="form-group">
+                                    <textarea name="comment" class="form-control" ></textarea>
+                                    <input type="hidden" name="book_id" value="{{ @$detail['book_id'] }}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-success" value="Add comment" id="submit">
+                                </div>
+                            </form>
+                            <hr>
+                            <div id="comment">
+                                @include('page.comment', ['comments', 'detail'])
+                            </div>
                         </div>
                     </div>
                     <div class="wn__related__product pt--80 pb--50">

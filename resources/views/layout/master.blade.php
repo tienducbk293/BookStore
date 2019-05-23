@@ -79,7 +79,7 @@
                     method: "DELETE",
                     data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
                     success: function (response) {
-                        window.location.reload();
+                        window.location.reload(response);
                     }
                 });
             }
@@ -104,6 +104,16 @@
                 $('.show').show();
             });
         });
+    </script>
+    <script type="text/javascript">
+        function replyBox($key) {
+            var x = document.getElementById("reply");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>

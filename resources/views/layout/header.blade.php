@@ -64,8 +64,11 @@
             </div>
             <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                 <ul class="header__sidebar__right d-flex justify-content-end align-items-center">
-                    <li class="shop_search"><a class="search__active" href="index.html#"></a></li>
-                    <li class="wishlist"><a href="index.html#"></a></li>
+                    <li class="shop_search"><a class="search__active" href="#"></a></li>
+                    <?php
+                    $user_key = session()->get('user_key');
+                    ?>
+                    <li class="wishlist"><a href="{{ route('listlike', $user_key[0]) }}"></a></li>
                     <li class="shopcart">
                         <a class="cartbox_active" id="cartinfo_active" href="{{ route('cart') }}">
                             <span class="product_qun">
@@ -124,7 +127,7 @@
                                         <span>{{ @$total }} đ</span>
                                     </div>
                                     <div class="mini_action checkout">
-                                        <a class="checkout__btn" href="@if(Session::has('token') && Session::get('login') == true) {{ route('checkout') }} @else {{ route('login') }} @endif">Thanh toán</a>
+                                        <a class="checkout__btn" href="@if(Session::has('token') && Session::get('login') == true) {{ route('order') }} @else {{ route('login') }} @endif">Thanh toán</a>
                                     </div>
                             </div>
                         </div>

@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-12">
-                    <form action="{{ route('checkout') }}" method="post">
+                    <form action="{{ route('order') }}" method="post">
                         <div class="customer_details">
                             <h3>Chi tiết thanh toán</h3>
                             <div class="customar__field">

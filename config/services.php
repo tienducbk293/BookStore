@@ -35,4 +35,13 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'firebase' => [
+        'api_key' => env('AIzaSyATEWess4TzascKpn85ApXY_Z68j-FCFlY'),
+        'auth_domain' => env('bookstore-f7ae3.firebaseapp.com'),
+        'database_url' => env('https://bookstore-f7ae3.firebaseio.com'),
+        'project_id' => env('bookstore-f7ae3'),
+        'secret' => env('FAAH2PF2iA0iFJmjNKTQ9K26yaoWN3vRykYmmrU2'),
+        'storage_bucket' => env('bookstore-f7ae3.appspot.com'),
+        'messaging_sender_id' => env('421717153339')
+    ]
 ];

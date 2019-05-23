@@ -3,24 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\BookRepository;
+use App\Book;
 class CartController extends Controller
 {
-    private $bookRepository;
-
-    public function __construct(BookRepository $bookRepository = null)
-    {
-        $this->bookRepository = ($bookRepository === null) ? new BookRepository : $bookRepository;
-    }
-
     public function cart() {
         return view('page.cart');
     }
 
     public function postAdd(Request $request, $id) {
-        $data = $this->bookRepository->getBookData();
-        $bookData = $data->orderByChild('book_id')->equalTo($id)->getValue();
-        $books = array_values($bookData);
+        $bookData = new Book();
+        $data = $bookData->getDatabase();
+        $dataBook = $data->orderByChild('book_id')->equalTo($id)->getValue();
+        $books = array_values($dataBook);
         $book = $books[0];
         $cart = session()->get('cart');
         $bookId = $id;
@@ -66,8 +60,6 @@ class CartController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
 
             session()->put('cart', $cart);
-
-            session()->flash('success', 'Cart updated successfully');
         }
     }
 
@@ -83,8 +75,6 @@ class CartController extends Controller
 
                 session()->put('cart', $cart);
             }
-
-            session()->flash('success', 'Product removed successfully');
         }
     }
     

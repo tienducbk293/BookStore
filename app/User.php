@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Repositories;
+namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
-class UserRepository {
-    public function getUserToken($uid) {
+class User extends Model
+{
+    public function getToken($uid) {
         $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/bookstore-firebase-adminsdk.json');
         $firebase = (new Factory)
             ->withServiceAccount($serviceAccount)
@@ -14,7 +16,7 @@ class UserRepository {
         return $token = $firebase->getAuth()->createCustomToken($uid);
     }
 
-    public function getUserData() {
+    public function getDatabase() {
         $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/bookstore-firebase-adminsdk.json');
         $firebase = (new Factory)
             ->withServiceAccount($serviceAccount)
