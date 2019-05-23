@@ -36,9 +36,9 @@
 
     <!-- Main wrapper -->
     <div class="wrapper" id="wrapper">
-        @include('layout.header')
+        @include('layouts.header')
         @yield('content')
-        @include('layout.footer')
+        @include('layouts.footer')
     </div>
 
     <script src="js/vendor/jquery-3.2.1.min.js"></script>

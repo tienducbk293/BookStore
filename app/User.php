@@ -22,6 +22,6 @@ class User extends Model
             ->withServiceAccount($serviceAccount)
             ->withDatabaseUri('https://bookstore-f7ae3.firebaseio.com')
             ->create();
-        return $data = $firebase->getDatabase()->getReference('user');
+        return $data = $firebase->getDatabase()->getReference('users');
     }
 }
