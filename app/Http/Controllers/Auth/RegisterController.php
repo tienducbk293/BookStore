@@ -12,21 +12,25 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    public function getRegister () {
-        return view('page.register');
+    public function showRegistrationForm () {
+        return view('auth.register');
     }
 
-    public function postRegister (Request $request) {
+    public function register (Request $request) {
         $user = array(
             'email' => null,
             'name' => null,
             'password' => null,
-            're_password' => null
+            'password_confirmation' => null
         );
+        $password = $request->input('password');
+        $password_confirmation = $request->input('password_confirmation');
+        if ($password === $password_confirmation) {
+            $user['password'] = Hash::make($password);
+        }
         $user['email'] = $request->input('email');
         $user['name'] = $request->input('name');
-        $user['password'] = Hash::make($request->input('password'));
-        $user['re_password'] = Hash::make($request->input('re_password'));
+        $user['level'] = '1';
         $userData = new User();
         $data = $userData->getDatabase();
         $data->push($user);

@@ -1,7 +1,7 @@
-@extends('layout.master')
+@extends('layouts.master')
 @section('content')
     <div class="home_page">
-        @include('layout.slider')
+        @include('layouts.slider')
         @include('page.new_book')
         @include('page.subscribe')
         @include('page.all_book')

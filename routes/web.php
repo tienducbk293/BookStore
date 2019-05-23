@@ -34,11 +34,6 @@ Route::post('order', 'OrderController@postOrder')->name('order');
 Route::get('check-quantity', 'OrderController@checkQuantity');
 Route::get('destroy', 'CartController@destroy');
 Route::get('delete-item-cart', 'CartController@deleteItemCart');
-Route::get('register', 'Auth\RegisterController@getRegister')->name('register');
-Route::post('register', 'Auth\RegisterController@postRegister')->name('register');
-Route::get('login', 'Auth\LoginController@getLogin')->name('login');
-Route::post('login', 'Auth\LoginController@postLogin')->name('login');
-Route::get('logout', 'Auth\LoginController@getLogout')->name('logout');
 Route::get('custom_token', 'HomeController@createCustomToken');
 Route::get('verify', 'HomeController@verifyIdToken');
 Route::get('list', 'HomeController@listUser');
@@ -50,17 +45,18 @@ Route::prefix('book')->group(function () {
     Route::get('crawl', 'BookController@crawl_list');
     Route::get('detail', 'BookController@crawl_detail');
 
+
 });
 
-Route::prefix('user')->group( function () {
-   Route::get('/', function () {
-      \App\User::create([
-         'name' => 'Nguyen Tien Duc',
-          'email' => 'ducnt@gmail.com',
-          'password' => bcrypt('12345678')
-      ]);
-   });
-});
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register')->name('register');
+Route::get('login', 'Auth\LoginController@getLogin')->name('login');
+Route::post('login', 'Auth\LoginController@login')->name('login');
+Route::get('logout', 'Auth\LoginController@getLogout')->name('logout');
+Route::get('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
