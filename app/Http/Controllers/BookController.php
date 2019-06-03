@@ -3,11 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Category;
 use DiDom\Document;
 use mysql_xdevapi\Session;
-
+use Curl\Curl;
+use Google\Cloud\Firestore\FirestoreClient;
 class BookController extends Controller
 {
+    protected $book = array();
+    protected $category = array();
+    public function __construct(Book $book, Category $category)
+    {
+        $this->book = $book;
+        $this->category = $category;
+    }
+
+    function vn_str_filter ($str){
+        $unicode = array(
+            'a'=>'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ',
+            'd'=>'đ',
+            'e'=>'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ',
+            'i'=>'í|ì|ỉ|ĩ|ị',
+            'o'=>'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ',
+            'u'=>'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự',
+            'y'=>'ý|ỳ|ỷ|ỹ|ỵ',
+            'A'=>'Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ',
+            'D'=>'Đ',
+            'E'=>'É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ',
+            'I'=>'Í|Ì|Ỉ|Ĩ|Ị',
+            'O'=>'Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ',
+            'U'=>'Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự',
+            'Y'=>'Ý|Ỳ|Ỷ|Ỹ|Ỵ',
+        );
+
+        foreach($unicode as $nonUnicode=>$uni){
+            $str = preg_replace("/($uni)/i", $nonUnicode, $str);
+        }
+        return $str;
+    }
+
     public function crawl_list() {
         set_time_limit(300);
         $target = "https://tiki.vn/sach-truyen-tieng-viet/c316?src=tree&_lc=Vk4wMzQwMjUwMDU%3D&page=1";
@@ -15,6 +49,7 @@ class BookController extends Controller
         $books = $document->find('.product-item');
         foreach ($books as $key => $book) {
             $book = array(
+                'id' => null,
                 'book_id' => null,
                 'image' => null,
                 'title' => null,
@@ -22,10 +57,13 @@ class BookController extends Controller
                 'final_price' => null,
                 'price_regular' => null,
                 'category' => null,
+                'slug' => null,
                 'detail' => null,
                 'detail_image' => null,
                 'quantity' => 30
             );
+
+            $book['id'] = $key;
             $book_id = $document->find('.product-item')[$key]->getAttribute('data-id');
             if (isset($book_id)) {
                 $book['book_id'] = trim($book_id);
@@ -55,12 +93,15 @@ class BookController extends Controller
             if (isset($category)) {
                 $explode = explode("/", $category);
                 $arrays = array_slice($explode, 2);
-                $tree_category = array();
-                foreach ($arrays as $key => $array) {
-                    $tree_category[$key]['parent_id'] = $key;
-                    $tree_category[$key]['category'] = $array;
-                }
-                $book['category'] = $tree_category;
+                $implode = implode("/", $arrays);
+                $book['category'] = trim($implode);
+            }
+            if (isset($book['category'])) {
+                $str = $this->vn_str_filter($book['category']);
+                $replace = str_replace(" -", "", $str);
+                $explode = explode(" ", strtolower($replace));
+                $slug = implode("-", $explode);
+                $book['slug'] = $slug;
             }
             $detail = $this->getBookDetail($book_id);
             if(isset($detail)) {
@@ -70,11 +111,83 @@ class BookController extends Controller
             if(isset($detail_image)) {
                 $book['detail_image'] = trim($detail_image);
             }
-            $bookData = new Book();
-            $data = $bookData->getDatabase();
-            $data->push($book);
+            $this->book->getDatabase()->push($book);
         }
-        dd($books);
+        return $this->book->getAll();
+    }
+
+    public function listCategory() {
+        $books = $this->book->getAll();
+        $datas = array();
+        foreach ($books as $key => $book) {
+            $arrs = explode("/", $book['category']);
+            $slug = explode("/", $book['slug']);
+            $tree = array();
+            foreach ($arrs as $id => $arr) {
+                $c = array();
+                if ($id == 0) {
+                    $c['category_name'] = $arr;
+                    $c['slug'] = $slug[$id];
+                    $c['parent'] = 0;
+                    $tree[$id] = $c;
+                } else {
+                    $c['category_name'] = $arr;
+                    $c['slug'] = $slug[$id];
+                    $c['parent'] = $arrs[$id-1];
+                    $tree[$id] = $c;
+                }
+            }
+            $datas[$key] = $tree;
+        }
+        return $datas;
+    }
+
+    public function unique_multi_array($arrays, $key) {
+        $unique_array = array();
+        $i = 0;
+        $key_array = array();
+
+        foreach($arrays as $array) {
+            if (!in_array($array[$key], $key_array)) {
+                $key_array[$i] = $array[$key];
+                $unique_array[$i] = $array;
+            }
+            $i++;
+        }
+        return $unique_array;
+    }
+
+    public function unique_array() {
+        $datas = $this->listCategory();
+        $arrays = array();
+        $i = 0;
+        foreach ($datas as $id => $data) {
+            $categories = $data;
+            foreach ($categories as $key => $category) {
+                $arrays[$i] = $category;
+                $i++;
+            }
+        }
+        return $unique_arrays = $this->unique_multi_array($arrays, 'category_name');
+    }
+
+    function makeRecursive($unique_array) {
+        $merge = array();
+        foreach ($unique_array as $unique) {
+            isset($merge[$unique['parent']]) ?: $merge[$unique['parent']] = array();
+            isset($merge[$unique['category_name']]) ?: $merge[$unique['category_name']] = array();
+            $merge[$unique['parent']][] = array_merge($unique, array('children' => &$merge[$unique['category_name']]));
+        }
+        return $merge[0];
+    }
+
+    public function merge() {
+        $unique_array = $this->unique_array();
+        $merge_arrays = $this->makeRecursive($unique_array);
+        foreach ($merge_arrays as $merge_array) {
+            $this->category->getDatabase()->push($merge_array);
+        }
+        return $this->category->getDatabase()->getValue();
     }
 
     public function getDetail ($id) {

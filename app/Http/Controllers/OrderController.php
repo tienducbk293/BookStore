@@ -8,13 +8,20 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    protected $bookData;
+    protected $orderData;
+    public function __construct(Book $book, Order $order)
+    {
+        $this->bookData = $book;
+        $this->orderData = $order;
+    }
+
     public function order() {
         return view('page.order');
     }
 
     public function postOrder(Request $request) {
-        $orderData = new Order();
-        $dataOrder = $orderData->getDatabase();
+        $dataOrder = $this->orderData->getDatabase();
         $user_key = session()->get('user_key');
         $cart = session()->get('cart');
         $order = [
@@ -31,16 +38,15 @@ class OrderController extends Controller
     }
 
     public function checkQuantity() {
-        $bookData = new Book();
-        $data = $bookData->getDatabase();
+        $child = 'book_id';
         foreach (session('cart') as $id => $cart) {
             $id = (string) $id;
-            $dataBook = $data->orderByChild('book_id')->equalTo($id)->getValue();
+            $dataBook = $this->bookData->orderByChild($child, $id);
             $array_key = array_keys($dataBook);
             $key = implode("", $array_key);
             $dataBook[$key]['quantity'] -= $cart['quantity'];
-            $data->update($dataBook);
+            $this->bookData->getDatabase()->update($dataBook);
         }
-        return $data_book = $data->getValue();
+        return $data_book = $this->bookData->getAll();
     }
 }

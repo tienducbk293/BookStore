@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        view()->composer('layouts.header', 'App\Http\ViewComposer\CategoryComposer');
+        view()->composer('page.list_category', 'App\Http\ViewComposer\CategoryComposer');
+        view()->composer('page.search', 'App\Http\ViewComposer\CategoryComposer');
     }
 
     /**

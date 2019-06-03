@@ -9,7 +9,7 @@
             <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                 <div class="logo">
                     <a href="{{route('homepage')}}">
-                        <img src="images/logo/logo.png" alt="logo images">
+                        <img src="images/logo/basa.png" alt="logo images">
                     </a>
                 </div>
             </div>
@@ -18,32 +18,19 @@
                     <ul class="meninmenu d-flex justify-content-start" >
                         <li class="drop with--one--item" style="position: relative;"><a href="{{route('homepage')}}">Trang chủ</a></li>
                         <li class="drop"><a href="index.html#">Cửa hàng</a>
-                            <div class="megamenu mega03">
-                                <ul class="item item03">
-                                    <li class="title">Shop Layout</li>
-                                    <li><a href="shop-grid.html">Shop Grid</a></li>
-                                    <li><a href="shop-list.html">Shop List</a></li>
-                                    <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                    <li><a href="shop-no-sidebar.html">Shop No sidebar</a></li>
-                                    <li><a href="single-product.html">Single Product</a></li>
-                                </ul>
-                                <ul class="item item03">
-                                    <li class="title">Shop Page</li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                    <li><a href="checkout.html">Checkout Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
-                                    <li><a href="error404.html">404 Page</a></li>
-                                    <li><a href="faq.html">Faq Page</a></li>
-                                </ul>
-                                <ul class="item item03">
-                                    <li class="title">Bargain Books</li>
-                                    <li><a href="shop-grid.html">Bargain Bestsellers</a></li>
-                                    <li><a href="shop-grid.html">Activity Kits</a></li>
-                                    <li><a href="shop-grid.html">B&N Classics</a></li>
-                                    <li><a href="shop-grid.html">Books Under $5</a></li>
-                                    <li><a href="shop-grid.html">Bargain Books</a></li>
+                            <div class="megamenu dropdown">
+                                <ul class="item item01">
+                                    @foreach($categories as $key => $category)
+                                        <li class="label2"><a href="{{ route('category', $category['slug']) }}">{{ $category['category_name'] }}</a>
+                                            @if(isset($category['children']))
+                                                <ul>
+                                                    @foreach($category['children'] as $key => $children)
+                                                        <li><a href="{{ route('category', $children['slug']) }}">{{ $children['category_name'] }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </li>
@@ -144,7 +131,7 @@
                                         <div class="switcher-currency-trigger">
                                             <div class="setting__menu">
                                                 @if(Session::has('token') && Session::get('login') == true)
-                                                    <span><a href="#">{{Session::get('name')}}</a></span>
+                                                    <span><a href="{{ route('dashboard') }}">{{Session::get('name')}}</a></span>
                                                     <span><a href="{{route('logout')}}">Đăng xuất</a></span>
                                                 @else
                                                     <span><a href="{{route('login')}}">Đăng nhập</a></span>
@@ -225,11 +212,12 @@
 <!-- //Header -->
 <!-- Start Search Popup -->
 <div class="brown--color box-search-content search_active block-bg close__top">
-    <form id="search_mini_form" class="minisearch" action="index.html#">
-        <div class="field__search">
-            <input type="text" placeholder="Search entire store here...">
+    <form id="search_mini_form" class="minisearch" accept-charset="UTF-8" action="{{ route('search') }}" method="get">
+
+        <div class="form-group field__search">
+            <input type="text" name="search" placeholder="Tìm kiếm ở đây...">
             <div class="action">
-                <a href="index.html#"><i class="zmdi zmdi-search"></i></a>
+                <button type="submit"><i class="zmdi zmdi-search"></i></button>
             </div>
         </div>
     </form>

@@ -6,14 +6,19 @@ use Illuminate\Http\Request;
 use App\Book;
 class CartController extends Controller
 {
+    protected $bookData;
+    public function __construct(Book $book)
+    {
+        $this->bookData = $book;
+    }
+
     public function cart() {
         return view('page.cart');
     }
 
     public function postAdd(Request $request, $id) {
-        $bookData = new Book();
-        $data = $bookData->getDatabase();
-        $dataBook = $data->orderByChild('book_id')->equalTo($id)->getValue();
+        $child = 'book_id';
+        $dataBook = $this->bookData->orderByChild($child, $id);
         $books = array_values($dataBook);
         $book = $books[0];
         $cart = session()->get('cart');

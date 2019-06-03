@@ -27,9 +27,12 @@
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="wn__fotorama__wrapper">
+                                    @if(isset($detail['reading-book']))
+                                        <a href="#" data-toggle="modal" data-target="#myModal" class="book-review-btn"><img src="images/books/icon-doc-thu.png" alt=""></a>
+                                    @endif
                                     <div class="fotorama wn__fotorama__action" data-nav="thumbs">
                                         {{--Cannot use object of type Kreait\Firebase\Database\Query as array (View: C:\xampp\htdocs\www\BookStore\resources\views\page\detail.blade.php)--}}
-                                        <a href="http://demo.devitems.com/boighor-v2/1.jpg"><img src="{{@$detail['detail_image']}}" alt=""></a>
+                                        <a href="{{ route('detail', $detail['book_id']) }}"><img src="{{@$detail['detail_image']}}" alt=""></a>
                                     </div>
                                 </div>
                             </div>
@@ -37,13 +40,20 @@
                                 <div class="product__info__main">
                                     <h1>{{@$detail['title']}}</h1>
                                     <div class="product-reviews-summary d-flex">
-                                        <ul class="rating-summary d-flex">
-                                            <li><i class="zmdi zmdi-star-outline"></i></li>
-                                            <li><i class="zmdi zmdi-star-outline"></i></li>
-                                            <li><i class="zmdi zmdi-star-outline"></i></li>
-                                            <li class="off"><i class="zmdi zmdi-star-outline"></i></li>
-                                            <li class="off"><i class="zmdi zmdi-star-outline"></i></li>
-                                        </ul>
+                                        <fieldset class="rate-display">
+                                            @if(isset($everage))
+                                                @if($everage >= 1)
+                                                    @for($i = 1; $i <= $everage; $i++)
+                                                        <span class="fa fa-star checked"></span>
+                                                    @endfor
+                                                @endif
+                                                @if($everage < 5)
+                                                    @for($j = $everage+1; $j <=5; $j++)
+                                                        <span class="fa fa-star un-checked"></span>
+                                                    @endfor
+                                                @endif
+                                            @endif
+                                        </fieldset>
                                     </div>
                                     <p>{{@$detail['author']}}</p>
                                     <div class="price-box">
@@ -59,14 +69,22 @@
                                                 </div>
                                                 <div class="product-addto-links clearfix">
                                                     <a class="wishlist" href="@if(Session::has('token') && Session::get('login') == true) {{ route('addlike', $detail['book_id']) }} @else {{ route('login') }} @endif"></a>
-                                                    <a class="compare" href="#"></a>
                                                 </div>
                                         </div>
                                     </form>
                                     <div class="product_meta">
-											<span class="posted_in">Categories:
-												<a href="single-product.php#">Adventure</a>,
-												<a href="single-product.php#">Kids' Music</a>
+                                        <?php
+                                            $cates = explode("/", $detail['category']);
+                                            $slug = explode("/", $detail['slug']);
+                                        ?>
+											<span class="posted_in">Danh mục:
+                                                @foreach($cates as $key => $cate)
+                                                    @if($key == count($cates)-1)
+                                                        <a href="{{ route('category', $slug[$key]) }}">{{ $cate }}</a>
+                                                    @else
+                                                        <a href="{{ route('category', $slug[$key]) }}">{{ $cate }}</a>,
+                                                    @endif
+                                                @endforeach
 											</span>
                                     </div>
                                     <div class="product-share">
@@ -101,7 +119,7 @@
                     <div class="product__info__detailed">
                         <div class="pro_details_nav nav justify-content-start" role="tablist">
                             <a class="nav-item nav-link active showDetail" data-toggle="tab" href="" role="tab">Chi tiết</a>
-                            <a class="nav-item nav-link showComment" data-toggle="tab" href="" role="tab">Đánh giá</a>
+                            <a class="nav-item nav-link showComment" data-toggle="tab" href="" role="tab">Bình luận</a>
 
                         </div>
                         <div class="tab__container">
@@ -112,125 +130,32 @@
                                 </div>
                             </div>
                             <!-- End Single Tab Content -->
-                            <!-- Start Single Tab Content -->
-                            <div class="pro__tab_label tab-pane fade" id="nav-review" role="tabpanel">
-                                <div class="review__attribute">
-                                    <h1>Customer Reviews</h1>
-                                    <h2>Hastech</h2>
-                                    <div class="review__ratings__type d-flex">
-                                        <div class="review-ratings">
-                                            <div class="rating-summary d-flex">
-                                                <span>Quality</span>
-                                                <ul class="rating d-flex">
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                </ul>
-                                            </div>
-
-                                            <div class="rating-summary d-flex">
-                                                <span>Price</span>
-                                                <ul class="rating d-flex">
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                </ul>
-                                            </div>
-                                            <div class="rating-summary d-flex">
-                                                <span>value</span>
-                                                <ul class="rating d-flex">
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="review-content">
-                                            <p>Hastech</p>
-                                            <p>Review by Hastech</p>
-                                            <p>Posted on 11/6/2018</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="review-fieldset">
-                                    <h2>You're reviewing:</h2>
-                                    <h3>Chaz Kangeroo Hoodie</h3>
-                                    <div class="review-field-ratings">
-                                        <div class="product-review-table">
-                                            <div class="review-field-rating d-flex">
-                                                <span>Quality</span>
-                                                <ul class="rating d-flex">
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                </ul>
-                                            </div>
-                                            <div class="review-field-rating d-flex">
-                                                <span>Price</span>
-                                                <ul class="rating d-flex">
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                </ul>
-                                            </div>
-                                            <div class="review-field-rating d-flex">
-                                                <span>Value</span>
-                                                <ul class="rating d-flex">
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="review_form_field">
-                                        <div class="input__box">
-                                            <span>Nickname</span>
-                                            <input id="nickname_field" type="text" name="nickname">
-                                        </div>
-                                        <div class="input__box">
-                                            <span>Summary</span>
-                                            <input id="summery_field" type="text" name="summery">
-                                        </div>
-                                        <div class="input__box">
-                                            <span>Review</span>
-                                            <textarea name="review"></textarea>
-                                        </div>
-                                        <div class="review-form-actions">
-                                            <button>Submit Review</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Tab Content -->
                         </div>
+
                         <div class="hidden" id="hidden">
-                            <h4>Add comment</h4>
-                            <form action="{{ route('comment', @$detail['book_id']) }}" method="post">
-                                <input name="_token" type="hidden" value="{{csrf_token()}}" />
-                                <div class="form-group">
-                                    <textarea name="comment" class="form-control" ></textarea>
-                                    <input type="hidden" name="book_id" value="{{ @$detail['book_id'] }}">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-success" value="Add comment" id="submit">
-                                </div>
-                            </form>
-                            <hr>
                             <div id="comment">
                                 @include('page.comment', ['comments', 'detail'])
+                            </div>
+                            <div class="add-comment">
+                                <h4>Thêm bình luận</h4>
+                                <form action="{{ route('comment', @$detail['book_id']) }}" method="post">
+                                    <p>Đánh giá</p>
+                                    <fieldset class="rate">
+                                        <input type="radio" id="star5"  name="rate" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                        <input type="radio" id="star4" name="rate" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                        <input type="radio" id="star3" name="rate" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                        <input type="radio" id="star2" name="rate" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                        <input type="radio" id="star1" name="rate" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                    </fieldset>
+                                    <input name="_token" type="hidden" value="{{csrf_token()}}" />
+                                    <div class="form-group">
+                                        <textarea name="comment" class="form-control" ></textarea>
+                                        <input type="hidden" name="book_id" value="{{ @$detail['book_id'] }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success" value="Add comment" id="submit">
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -333,82 +258,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
-                    <div class="shop__sidebar">
-                        <aside class="wedget__categories poroduct--cat">
-                            <h3 class="wedget__title">Product Categories</h3>
-                            <ul>
-                                <li><a href="single-product.php#">Biography <span>(3)</span></a></li>
-                                <li><a href="single-product.php#">Business <span>(4)</span></a></li>
-                                <li><a href="single-product.php#">Cookbooks <span>(6)</span></a></li>
-                                <li><a href="single-product.php#">Health & Fitness <span>(7)</span></a></li>
-                                <li><a href="single-product.php#">History <span>(8)</span></a></li>
-                                <li><a href="single-product.php#">Mystery <span>(9)</span></a></li>
-                                <li><a href="single-product.php#">Inspiration <span>(13)</span></a></li>
-                                <li><a href="single-product.php#">Romance <span>(20)</span></a></li>
-                                <li><a href="single-product.php#">Fiction/Fantasy <span>(22)</span></a></li>
-                                <li><a href="single-product.php#">Self-Improvement <span>(13)</span></a></li>
-                                <li><a href="single-product.php#">Humor Books <span>(17)</span></a></li>
-                                <li><a href="single-product.php#">Harry Potter <span>(20)</span></a></li>
-                                <li><a href="single-product.php#">Land of Stories <span>(34)</span></a></li>
-                                <li><a href="single-product.php#">Kids' Music <span>(60)</span></a></li>
-                                <li><a href="single-product.php#">Toys & Games <span>(3)</span></a></li>
-                                <li><a href="single-product.php#">hoodies <span>(3)</span></a></li>
-                            </ul>
-                        </aside>
-                        <aside class="wedget__categories pro--range">
-                            <h3 class="wedget__title">Filter by price</h3>
-                            <div class="content-shopby">
-                                <div class="price_filter s-filter clear">
-                                    <form action="single-product.php#" method="GET">
-                                        <div id="slider-range"></div>
-                                        <div class="slider__range--output">
-                                            <div class="price__output--wrap">
-                                                <div class="price--output">
-                                                    <span>Price :</span><input type="text" id="amount" readonly="">
-                                                </div>
-                                                <div class="price--filter">
-                                                    <a href="single-product.php#">Filter</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </aside>
-                        <aside class="wedget__categories poroduct--compare">
-                            <h3 class="wedget__title">Compare</h3>
-                            <ul>
-                                <li><a href="single-product.php#">x</a><a href="single-product.php#">Condimentum posuere</a></li>
-                                <li><a href="single-product.php#">x</a><a href="single-product.php#">Condimentum posuere</a></li>
-                                <li><a href="single-product.php#">x</a><a href="single-product.php#">Dignissim venenatis</a></li>
-                            </ul>
-                        </aside>
-                        <aside class="wedget__categories poroduct--tag">
-                            <h3 class="wedget__title">Product Tags</h3>
-                            <ul>
-                                <li><a href="single-product.php#">Biography</a></li>
-                                <li><a href="single-product.php#">Business</a></li>
-                                <li><a href="single-product.php#">Cookbooks</a></li>
-                                <li><a href="single-product.php#">Health & Fitness</a></li>
-                                <li><a href="single-product.php#">History</a></li>
-                                <li><a href="single-product.php#">Mystery</a></li>
-                                <li><a href="single-product.php#">Inspiration</a></li>
-                                <li><a href="single-product.php#">Religion</a></li>
-                                <li><a href="single-product.php#">Fiction</a></li>
-                                <li><a href="single-product.php#">Fantasy</a></li>
-                                <li><a href="single-product.php#">Music</a></li>
-                                <li><a href="single-product.php#">Toys</a></li>
-                                <li><a href="single-product.php#">Hoodies</a></li>
-                            </ul>
-                        </aside>
-                        <aside class="wedget__categories sidebar--banner">
-                            <img src="images/others/banner_left.jpg" alt="banner images">
-                            <div class="text">
-                                <h2>new products</h2>
-                                <h6>save up to <br> <strong>40%</strong>off</h6>
-                            </div>
-                        </aside>
+                @include('page.list_category')
+            </div>
+            <!-- The Modal -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{ @$detail['title'] }}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            @if(isset($detail['reading-book']))
+                                <iframe class="reading-book" src="{{ $detail['reading-book'] }}" frameborder="0"></iframe>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,5 +299,4 @@
     </div>
     <!-- End Search Popup -->
 @endsection
-
 

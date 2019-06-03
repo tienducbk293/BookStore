@@ -7,12 +7,19 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 class Order extends Model
 {
-    public function getDatabase() {
+    protected $database;
+    protected $dbname = 'orders';
+    public function __construct()
+    {
         $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/bookstore-firebase-adminsdk.json');
         $firebase = (new Factory)
             ->withServiceAccount($serviceAccount)
             ->withDatabaseUri('https://bookstore-f7ae3.firebaseio.com')
             ->create();
-        return $data = $firebase->getDatabase()->getReference('orders');
+        $this->database = $firebase->getDatabase();
+    }
+
+    public function getDatabase() {
+        return $data = $this->database->getReference($this->dbname);
     }
 }

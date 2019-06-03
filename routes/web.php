@@ -18,6 +18,9 @@ Route::get('user/test', function () {
 });
 
 Route::get('/', 'HomeController@index')->name('homepage');
+Route::get('search', 'HomeController@search')->name('search');
+Route::post('search', 'HomeController@postSearch')->name('search');
+Route::get('category/{slug}', 'HomeController@category')->name('category');
 Route::get('detail/{id}', 'HomeController@getDetailBook')->name('detail');
 Route::get('cart', 'CartController@cart')->name('cart');
 Route::post('add-to-cart/{id}', 'CartController@postAdd')->name('addtocart');
@@ -29,6 +32,8 @@ Route::get('comment', 'CommentController@comment')->name('comment');
 Route::post('comment/{id}', 'CommentController@postComment')->name('comment');
 Route::get('list-comment/{id}', 'CommentController@listComment')->name('listcomment');
 Route::post('reply/{id}', 'CommentController@reply')->name('reply');
+Route::get('rate', 'CommentController@rate')->name('rate');
+Route::post('rate', 'CommentController@postRate')->name('rate');
 Route::get('order', 'OrderController@order')->name('order');
 Route::post('order', 'OrderController@postOrder')->name('order');
 Route::get('check-quantity', 'OrderController@checkQuantity');
@@ -44,10 +49,15 @@ Route::prefix('book')->group(function () {
     Route::get('firebase', 'BookController@saveFirebase');
     Route::get('crawl', 'BookController@crawl_list');
     Route::get('detail', 'BookController@crawl_detail');
-
-
+    Route::get('category', 'BookController@listCategory');
+    Route::get('merge', 'BookController@merge');
+    Route::get('unique', 'BookController@unique_array');
+    Route::get('test', 'BookController@test');
 });
-
+Route::prefix('admin')->group(function () {
+    Route::get('dashboard', 'HomeController@admin')->name('dashboard');
+});
+Route::get('admin', 'HomeController@admin')->name('admin');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register')->name('register');
 Route::get('login', 'Auth\LoginController@getLogin')->name('login');
@@ -60,4 +70,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
