@@ -17,14 +17,14 @@
                 <div class="product product__style--3">
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <div class="product__thumb">
-                            <a class="first__img" href="#"><img src="{{@$all['image']}}" alt="product image"></a>
-                            <a class="second__img animation1" href="{{route('detail', $all['book_id'])}}"><img src="{{@$all['image']}}" alt="product image"></a>
+                            <a class="first__img" href="{{route('detail', @$all['book_id'])}}"><img src="{{@$all['image']}}" alt="product image"></a>
+                            <a class="second__img animation1" href="{{route('detail', @$all['book_id'])}}"><img src="{{@$all['image']}}" alt="product image"></a>
                             <div class="hot__box">
                                 <span class="hot-label">SALE</span>
                             </div>
                         </div>
                         <div class="product__content content--center">
-                            <h4><a href="{{route('detail', $all['book_id'])}}">{{@$all['title']}}</a></h4>
+                            <h4><a href="{{route('detail', @$all['book_id'])}}">{{@$all['title']}}</a></h4>
                             <ul class="prize d-flex">
                                 <li>{{@$all['final_price']}}</li>
                                 <li class="old_prize">{{@$all['price_regular']}}</li>

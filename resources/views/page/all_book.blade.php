@@ -32,13 +32,12 @@
                                     <div class="product product__style--3">
                                         <div class="product__thumb">
                                             <a class="first__img" href="#"><img src="{{@$all_book[$key]['image']}}" alt="product image"></a>
-                                            <a class="second__img animation1" href="{{route('detail', $all['book_id'])}}"><img src="{{@$all_book[$key]['image']}}" alt="product image"></a>
                                             <div class="hot__box">
                                                 <span class="hot-label">HOT</span>
                                             </div>
                                         </div>
                                         <div class="product__content content--center content--center">
-                                            <h4><a href="{{route('detail', $all['book_id'])}}">{{@$all_book[$key]['title']}}</a></h4>
+                                            <h4><a href="{{route('detail', @$all['book_id'])}}">{{@$all_book[$key]['title']}}</a></h4>
                                             <ul class="prize d-flex">
                                                 <li>{{@$all_book[$key]['final_price']}}</li>
                                                 <li class="old_prize">{{@$all_book[$key]['price_regular']}}</li>

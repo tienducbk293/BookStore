@@ -3,8 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <base href="{{asset('')}}">
@@ -18,6 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto: 100,300,400,500,700,900" rel="stylesheet">
 
     <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/plugins.css">
     <link rel="stylesheet" href="css/style.css">
@@ -47,8 +48,10 @@
     <script src="js/plugins.js"></script>
     <script src="js/active.js"></script>
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- jQuery, Bootstrap, Popper JS library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -106,7 +109,7 @@
         });
     </script>
     <script type="text/javascript">
-        function replyBox($key) {
+        function replyBox() {
             var x = document.getElementById("reply");
             if (x.style.display === "none") {
                 x.style.display = "block";
@@ -114,6 +117,16 @@
                 x.style.display = "none";
             }
         }
+    </script>
+    <script type="text/javascript">
+        function searchFunction() {
+
+        }
+    </script>
+    <script>
+        $(':radio').change(function() {
+            console.log('New star rating: ' + this.value);
+        });
     </script>
 </body>
 </html>

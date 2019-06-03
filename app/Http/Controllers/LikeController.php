@@ -7,11 +7,18 @@ use App\Like;
 use App\Book;
 class LikeController extends Controller
 {
-    public function addLike(Request $request, $id) {
-        $like = new Like();
-        $dataLike = $like->getDatabase();
+    protected $likeData;
+    protected $bookData;
+    public function __construct(Like $like, Book $book)
+    {
+        $this->likeData = $like;
+        $this->bookData = $book;
+    }
+
+    public function addLike($id) {
         $user_key = session()->get('user_key');
-        $likeData = $dataLike->orderByChild('book_id')->equalTo($id)->getValue();
+        $child = 'book_id';
+        $likeData = $this->likeData->orderByChild($child, $id);
         if (isset($likeData)) {
             $keys = array_keys($likeData);
             for ($i = 0; $i < count($likeData); $i++) {
@@ -25,21 +32,20 @@ class LikeController extends Controller
                 'user_key' => $user_key[0],
                 'like' => 1
             ];
-            $dataLike->push($postLike);
+            $this->likeData->getDatabase()->push($postLike);
         }
         $postLike = [
             'book_id' => $id,
             'user_key' => $user_key[0],
             'like' => 1
         ];
-        $dataLike->push($postLike);
+        $this->likeData->getDatabase()->push($postLike);
         return redirect()->back()->with('alert', 'Bạn đã thêm sản phẩm vào danh sách yêu thích');
     }
-    public function getListLike(Request $request, $key) {
-        $like = new Like();
-        $dataLike = $like->getDatabase();
-        $likeData = $dataLike->orderByChild('user_key')->equalTo($key)->getValue();
-        $likes = array_values($likeData);
+    public function getListLike($key) {
+        $child = 'user_key';
+        $data = $this->likeData->orderByChild($child, $key);
+        $likes = array_values($data);
         $books = array();
         foreach ($likes as $key => $like) {
             $book_id = (string) $like['book_id'];
@@ -50,10 +56,9 @@ class LikeController extends Controller
     }
 
     public function orderbyBookId($id) {
-        $bookData = new Book();
-        $data = $bookData->getDatabase();
-        $dataBook = $data->orderByChild('book_id')->equalTo($id)->getValue();
-        $books = array_values($dataBook);
+        $child = 'book_id';
+        $data = $this->bookData->orderByChild($child, $id);
+        $books = array_values($data);
         return $book = $books[0];
     }
 }

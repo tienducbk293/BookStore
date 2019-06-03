@@ -12,9 +12,14 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 class LoginController extends Controller
 {
+    protected $userData;
+    public function __construct(User $userData)
+    {
+        $this->userData = $userData;
+    }
+
     public function createCustomToken($uid) {
-        $user = new User();
-        $token = $user->getToken($uid);
+        $token = $this->userData->getToken($uid);
         return $customToken = (string) $token;
     }
 
@@ -24,20 +29,24 @@ class LoginController extends Controller
     }
 
     public function login(Request $request) {
-        $userData = new User();
-        $data = $userData->getDatabase();
-        $user_detail = $data->orderByChild('email')->equalTo($request->email)->getValue();
+        $child = 'email';
+        $user_detail = $this->userData->orderBy($child, $request->email);
         $users = array_values($user_detail);
         $user = $users[0];
         $user_key = array_keys($user_detail, $user);
         $uid = key($user_detail);
         $customToken = $this->createCustomToken($uid);
         $request->session()->put('token', $customToken);
-        $request->session()->put('user_key', $user_key);
+        $request->session()->put('user_key', $user_key[0]);
         $request->session()->put('name', $user['name']);
+        $request->session()->put('level', $user['level']);
         $request->session()->put('login', true);
         if (Hash::check($request->password, $user['password']) && ($user['email'] = $request->email)) {
-            return redirect()->to(session()->get('url.intended'));
+            if (session()->get('url.intended') === url('register')) {
+                return redirect('/');
+            } else {
+                return redirect()->to(session()->get('url.intended'));
+            }
         } else {
             return redirect('login')->with(['flag' => 'danger', 'message' => 'Đăng nhập không thành công']);
         }

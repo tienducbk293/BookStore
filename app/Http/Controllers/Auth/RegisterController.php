@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Hash;
 class RegisterController extends Controller
 {
     use RegistersUsers;
+    protected $userData;
+    public function __construct(User $userData)
+    {
+        $this->userData = $userData->database();
+    }
 
     public function showRegistrationForm () {
         return view('auth.register');
@@ -20,8 +25,7 @@ class RegisterController extends Controller
         $user = array(
             'email' => null,
             'name' => null,
-            'password' => null,
-            'password_confirmation' => null
+            'password' => null
         );
         $password = $request->input('password');
         $password_confirmation = $request->input('password_confirmation');
@@ -30,10 +34,8 @@ class RegisterController extends Controller
         }
         $user['email'] = $request->input('email');
         $user['name'] = $request->input('name');
-        $user['level'] = '1';
-        $userData = new User();
-        $data = $userData->getDatabase();
-        $data->push($user);
+        $user['level'] = '3';
+        $this->userData->push($user);
         return redirect('login')->with('success', 'Tạo tài khoản thành công');
     }
 }

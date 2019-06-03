@@ -15,7 +15,7 @@
         <!-- Single product start -->
             <div class="product product__style--3">
                 <div class="product__thumb">
-                    <a class="first__img" href="{{route('detail', $all['book_id'])}}"><img src="{{@$all['image']}}" alt="product image"></a>
+                    <a class="first__img" href="{{route('detail', @$all['book_id'])}}"><img src="{{@$all['image']}}" alt="product image"></a>
                 </div>
                 <div class="product__content content--center">
                     <div class="product__hover--content">

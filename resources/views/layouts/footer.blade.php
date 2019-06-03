@@ -1,7 +1,7 @@
 <!-- Footer Area -->
 <footer id="wn__footer" class="footer__area bg__cat--8 brown--color">
     <div class="footer-static-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="footer__widget footer__menu">
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="copyright__wrapper">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="copyright">
