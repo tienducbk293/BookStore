@@ -38,7 +38,7 @@ class LoginController extends Controller
         $customToken = $this->createCustomToken($uid);
         $request->session()->put('token', $customToken);
         $request->session()->put('user_key', $user_key[0]);
-        $request->session()->put('name', $user['name']);
+        $request->session()->put('user_name', $user['name']);
         $request->session()->put('level', $user['level']);
         $request->session()->put('login', true);
         if (Hash::check($request->password, $user['password']) && ($user['email'] = $request->email)) {

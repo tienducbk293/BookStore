@@ -30,4 +30,8 @@ class Comment extends Model
     public function getAll() {
         return $this->database->getReference($this->dbname)->getValue();
     }
+
+    public function orderByChild($child, $value) {
+        return $this->database->getReference($this->dbname)->orderByChild($child)->equalTo($value)->getValue();
+    }
 }
