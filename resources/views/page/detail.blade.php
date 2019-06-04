@@ -40,20 +40,18 @@
                                 <div class="product__info__main">
                                     <h1>{{@$detail['title']}}</h1>
                                     <div class="product-reviews-summary d-flex">
-                                        <fieldset class="rate-display">
-                                            @if(isset($everage))
-                                                @if($everage >= 1)
-                                                    @for($i = 1; $i <= $everage; $i++)
-                                                        <span class="fa fa-star checked"></span>
-                                                    @endfor
-                                                @endif
-                                                @if($everage < 5)
-                                                    @for($j = $everage+1; $j <=5; $j++)
-                                                        <span class="fa fa-star un-checked"></span>
-                                                    @endfor
-                                                @endif
+                                        <div class="stars-outer">
+                                            @if($everage != 0 || $everage != null)
+                                                <?php
+                                                $starPercentage = ($everage/5)* 100;
+                                                $starPercentageRound = (round($starPercentage/10)*10);
+                                                ?>
+                                                <div class="stars-inner" style="width: {{ $starPercentage.'%' }}">
+                                            @else
+                                                <div class="stars-inner" style="width: 0">
                                             @endif
-                                        </fieldset>
+                                            </div>
+                                        </div>
                                     </div>
                                     <p>{{@$detail['author']}}</p>
                                     <div class="price-box">
@@ -133,19 +131,17 @@
                         </div>
 
                         <div class="hidden" id="hidden">
-                            <div id="comment">
-                                @include('page.comment', ['comments', 'detail'])
-                            </div>
+                            @include('page.comment', ['comments', 'detail'])
                             <div class="add-comment">
                                 <h4>Thêm bình luận</h4>
                                 <form action="{{ route('comment', @$detail['book_id']) }}" method="post">
                                     <p>Đánh giá</p>
-                                    <fieldset class="rate">
-                                        <input type="radio" id="star5"  name="rate" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-                                        <input type="radio" id="star4" name="rate" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-                                        <input type="radio" id="star3" name="rate" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-                                        <input type="radio" id="star2" name="rate" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-                                        <input type="radio" id="star1" name="rate" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                    <fieldset class="rating">
+                                        <input type="radio" id="star5"  name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                                     </fieldset>
                                     <input name="_token" type="hidden" value="{{csrf_token()}}" />
                                     <div class="form-group">
@@ -153,7 +149,7 @@
                                         <input type="hidden" name="book_id" value="{{ @$detail['book_id'] }}">
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-success" value="Add comment" id="submit">
+                                        <input type="submit" class="btn btn-success" value="Bình luận" id="submit">
                                     </div>
                                 </form>
                             </div>

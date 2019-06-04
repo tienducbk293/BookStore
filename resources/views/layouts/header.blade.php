@@ -131,7 +131,7 @@
                                         <div class="switcher-currency-trigger">
                                             <div class="setting__menu">
                                                 @if(Session::has('token') && Session::get('login') == true)
-                                                    <span><a href="{{ route('dashboard') }}">{{Session::get('name')}}</a></span>
+                                                    <span><a href="{{ route('dashboard') }}">{{Session::get('user_name')}}</a></span>
                                                     <span><a href="{{route('logout')}}">Đăng xuất</a></span>
                                                 @else
                                                     <span><a href="{{route('login')}}">Đăng nhập</a></span>

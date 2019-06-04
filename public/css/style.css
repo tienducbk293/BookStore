@@ -69,6 +69,18 @@ Basic Styles
 /**
 Reset Styles
 */
+
+@font-face {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    font-style : normal;
+    src : url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0");
+    src : url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format("embedded-opentype"),
+    url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"),
+    url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"),
+    url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"),
+    url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");
+}
 * {
   box-sizing: border-box; }
 
@@ -6346,8 +6358,13 @@ iframe.reading-book {
     width: 100%;
     height: 460px;
 }
+.add-comment {
+  margin: 20px 0;
+  border-bottom: 1px solid #f7f7f7;
+}
 .display-comment {
     margin: 20px 0;
+    border-bottom: 1px solid #f7f7f7;
 }
   .display-comment a.reply-comment {
     background: url("../images/books/reply-arrow@2x.png") no-repeat;
@@ -6355,14 +6372,95 @@ iframe.reading-book {
     padding: 1px 0 0 28px;
     margin-right: 35px;
   }
-.add-comment {
-  border-top: 1px solid #f7f7f7;
-}
-  .add-comment h4 {
-    margin-top: 20px;
+  .display-comment .comment-viewer {
+     float: left;
+     width: 95%;
+   }
+    .display-comment .comment-viewer ul {
+      display:flex;
+      list-style:none;
+    }
+    .display-comment .comment-viewer ul li span{
+      color: #9EA7A6;
+      margin-left: 20px;
+    }
+  .display-comment .edit-comment {
+    display: none;
+    float: left;
+    width: 95%;
   }
+  .display-comment .three-dots {
+    position: absolute;
+    display: inline-block;
+    right: 0.4em;
+  }
+    .display-comment .three-dots .dropbtn {
+      background-color: #ffffff;
+      color: #000000;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    .display-comment .three-dots .dropbtn:hover, .dropbtn:focus {
+      background-color: #3e8e41;
+    }
+    .icons li {
+      background: none repeat scroll 0 0 #000000;
+      height: 7px;
+      width: 7px;
+      line-height: 0;
+      list-style: none outside none;
+      margin-right: 15px;
+      margin-top: 3px;
+      vertical-align: top;
+      border-radius:50%;
+      pointer-events: none;
+    }
+    .btn-left {
+      left: 0.4em;
+    }
 
-/* Rating CSS */
+    .btn-right {
+      right: 0.4em;
+    }
+
+    .btn-left, .btn-right {
+      position: absolute;
+      top: 0.24em;
+    }
+    .showLeft{
+      background-color: #fff !important;
+      border:1px solid #fff !important;
+      text-shadow: none !important;
+      color:#fff !important;
+      padding:10px;
+    }
+    .dropdown-content {
+      display: none;
+      position: relative;
+      margin-top: 60px;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      overflow: auto;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    .show {display:block;}
+.add-comment h4 {
+margin-top: 20px;
+}
+.edit-comment h4 {
+  margin-top: 20px;
+}
+
+/* Rate CSS */
 fieldset, label { margin: 0; padding: 0; }
 /****** Style Star Rating Widget *****/
 
@@ -6370,7 +6468,6 @@ fieldset, label { margin: 0; padding: 0; }
   border: none;
   float: left;
 }
-
 .rate > input { display: none; }
 .rate > label:before {
   margin: 5px;
@@ -6410,3 +6507,66 @@ fieldset, label { margin: 0; padding: 0; }
   .rate-display span.checked {
     color: #FFD700;
   }
+
+/* Rating CSS */
+fieldset, label { margin: 0; padding: 0; }
+/****** Style Star Rating Widget *****/
+
+.rating {
+  border: none;
+  float: left;
+}
+.rating > input { display: none; }
+.rating > label:before {
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before {
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label {
+  color: #ddd;
+  float: right;
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+
+.stars-outer {
+    display: inline-block;
+    position: relative;
+    font-family: FontAwesome;
+    content: "\f006 \f006 \f006 \f006 \f006";
+}
+.stars-outer::before {
+    content: "\f006 \f006 \f006 \f006 \f006";
+    color: #FFD700;
+}
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.stars-inner::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    color: #FFD700;
+}
+

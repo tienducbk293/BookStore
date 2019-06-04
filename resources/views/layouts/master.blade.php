@@ -18,7 +18,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/plugins.css">
     <link rel="stylesheet" href="css/style.css">
@@ -109,6 +109,24 @@
         });
     </script>
     <script type="text/javascript">
+
+        $(function () {
+            $('#editComment').click(function () {
+                var name = $(this).attr('data-content');
+                $('#'+name).show();
+                $('.display-comment').hide();
+                $('.add-comment').hide();
+            });
+
+            $('#dropEditComment').click(function () {
+                var name = $(this).attr('data-content');
+                $('.display-comment').show();
+                $('.add-comment').show();
+                $('#'+name).hide();
+            });
+        });
+    </script>
+    <script type="text/javascript">
         function replyBox() {
             var x = document.getElementById("reply");
             if (x.style.display === "none") {
@@ -127,6 +145,41 @@
         $(':radio').change(function() {
             console.log('New star rating: ' + this.value);
         });
+    </script>
+    <script>
+        const ratings = 2.8;
+
+        // total number of stars
+        const starTotal = 5;
+
+        const starPercentage = (ratings / starTotal) * 100;
+        const starPercentageRounded = "${(Math.round(starPercentage / 10) * 10)}%";
+        document.querySelector("${ratings} .stars-inner").style.width = starPercentageRounded;
+    </script>
+    <script>
+        function changeLanguage(language) {
+            var element = document.getElementById("url");
+            element.value = language;
+            element.innerHTML = language;
+        }
+
+        function showDropdown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 </body>
 </html>

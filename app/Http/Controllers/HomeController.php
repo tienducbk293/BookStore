@@ -42,9 +42,9 @@ class HomeController extends Controller
         } else {
             $sum = 0;
             foreach ($comments as $key => $comment) {
-                $sum += $comment['rate'];
+                $sum += $comment['rating'];
             }
-            $everage = round($sum/count($comments));
+            $everage = round($sum/count($comments), 2);
         }
         $detail_book = $this->bookData->orderByChild($childBook, $id);
         $details = array_values($detail_book);
@@ -112,5 +112,9 @@ class HomeController extends Controller
         }
         $amount = count($searchs);
         return view('page.search', compact('searchs', 'amount'));
+    }
+
+    public function test() {
+        return view('page.test');
     }
 }
