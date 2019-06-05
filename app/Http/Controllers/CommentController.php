@@ -55,14 +55,8 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    public function deleteComment($id) {
-        $child = 'book_id';
-        $comments = $this->commentData->orderByChild($child, $id);
-        foreach ($comments as $key => $comment) {
-            if ($comment['user_key'] === session()->get('user_key')) {
-                $this->commentData->getDatabase()->getChild($key)->remove();
-            }
-        }
+    public function deleteComment($key) {
+        $this->commentData->getDatabase()->getChild($key)->remove();
         return redirect()->back();
     }
 

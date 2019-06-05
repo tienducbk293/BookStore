@@ -35,12 +35,9 @@
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
 
-    <!-- Main wrapper -->
-    <div class="wrapper" id="wrapper">
-        @include('layouts.header')
-        @yield('content')
-        @include('layouts.footer')
-    </div>
+    @include('layouts.header')
+    @yield('content')
+    @include('layouts.footer')
 
     <script src="js/vendor/jquery-3.2.1.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -114,15 +111,17 @@
             $('#editComment').click(function () {
                 var name = $(this).attr('data-content');
                 $('#'+name).show();
+                $('.drop-edit-comment').show();
                 $('.display-comment').hide();
                 $('.add-comment').hide();
             });
 
             $('#dropEditComment').click(function () {
                 var name = $(this).attr('data-content');
+                $('#'+name).hide();
                 $('.display-comment').show();
                 $('.add-comment').show();
-                $('#'+name).hide();
+                $('.drop-edit-comment').hide();
             });
         });
     </script>

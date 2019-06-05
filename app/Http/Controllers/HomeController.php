@@ -50,7 +50,39 @@ class HomeController extends Controller
         $details = array_values($detail_book);
         $detail = $details[0];
         $all_book = $this->bookData->getAll();
-        return view('page.detail', compact('detail', 'all_book', 'comments', 'everage'));
+        $slug = explode("/", $detail['slug']);
+        $category_books = $this->getCategoryBook($all_book, $slug[0]);
+        if (session()->has('token') && session()->get('login') == true) {
+            $this->getSeenBook($request, $detail, $id);
+        }
+        return view('page.detail', compact('detail', 'all_book', 'comments', 'everage', 'category_books'));
+    }
+
+    public function getSeenBook(Request $request, $detail, $id) {
+        $seen_books = session()->get('seen_books');
+        if (!$seen_books) {
+            $seen_books[$id] = $detail;
+            $request->session()->put('seen_books', $seen_books);
+            return $seen_books;
+        }
+        if(isset($seen_books[$id])) {
+            return $seen_books;
+        } else {
+            $seen_books[$id] = $detail;
+            $request->session()->put('seen_books', $seen_books);
+            return $seen_books;
+        }
+    }
+
+    public function getCategoryBook($all_book, $slug) {
+        $category_books = array();
+        foreach ($all_book as $key => $all) {
+            $pos = strpos($all['slug'], $slug);
+            if ($pos !== false) {
+                $category_books[$key] = $this->bookData->orderByKey($key);
+            }
+        }
+        return $category_books;
     }
 
     public function category(Request $request, $slug) {

@@ -122,9 +122,10 @@ textarea {
   font-family: "Source Sans Pro", Helvetica, sans-serif; }
 
 body {
-  color: #141412;
-  line-height: 1.5;
-  margin: 0; }
+    color: #141412;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;}
 
 a {
   color: #333;
@@ -2741,14 +2742,6 @@ nav.menu {
 #quickview-wrapper {
   position: relative;
   z-index: 9956748; }
-.modal-body {
-  padding: 20px;
-}
-.modal-dialog.modal__container {
-  max-width: 1170px;
-  background: #fff; }
-.modal-product {
-  display: flex; }
 .product-images {
   max-width: 50%;
   padding-right: 50px; }
@@ -6354,9 +6347,10 @@ a.book-review-btn {
   display: block;
   position: relative;
 }
+
 iframe.reading-book {
     width: 100%;
-    height: 460px;
+    height: 400px;
 }
 .add-comment {
   margin: 20px 0;
@@ -6460,79 +6454,31 @@ margin-top: 20px;
   margin-top: 20px;
 }
 
-/* Rate CSS */
-fieldset, label { margin: 0; padding: 0; }
-/****** Style Star Rating Widget *****/
-
-.rate {
-  border: none;
-  float: left;
-}
-.rate > input { display: none; }
-.rate > label:before {
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
-}
-
-.rate > .half:before {
-  content: "\f089";
-  position: absolute;
-}
-
-.rate > label {
-  color: #ddd;
-  float: right;
-}
-
-/***** CSS Magic to Highlight Stars on Hover *****/
-
-.rate > input:checked ~ label, /* show gold star when clicked */
-.rate:not(:checked) > label:hover, /* hover current star */
-.rate:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
-
-.rate > input:checked + label:hover, /* hover current star when changing rating */
-.rate > input:checked ~ label:hover,
-.rate > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rate > input:checked ~ label:hover ~ label { color: #FFED85;  }
-
-.rate-display {
-  border: none;
-}
-  .rate-display span.un-checked {
-    color: #ddd;
-  }
-  .rate-display span.checked {
-    color: #FFD700;
-  }
-
 /* Rating CSS */
 fieldset, label { margin: 0; padding: 0; }
 /****** Style Star Rating Widget *****/
 
 .rating {
-  border: none;
-  float: left;
+    border: none;
+    float: left;
 }
 .rating > input { display: none; }
 .rating > label:before {
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
 }
 
 .rating > .half:before {
-  content: "\f089";
-  position: absolute;
+    content: "\f089";
+    position: absolute;
 }
 
 .rating > label {
-  color: #ddd;
-  float: right;
+    color: #ddd;
+    float: right;
 }
 
 /***** CSS Magic to Highlight Stars on Hover *****/
@@ -6545,6 +6491,17 @@ fieldset, label { margin: 0; padding: 0; }
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+
+.rate-display {
+  border: none;
+}
+  .rate-display span.un-checked {
+    color: #ddd;
+  }
+  .rate-display span.checked {
+    color: #FFD700;
+  }
+
 
 .stars-outer {
     display: inline-block;
