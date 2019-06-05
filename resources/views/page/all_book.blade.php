@@ -25,75 +25,36 @@
             <div class="row single__tab tab-pane fade show active" id="nav-all" role="tabpanel">
                 <div class="product__indicator--4 arrows_style owl-carousel owl-theme">
                     @foreach($all_book as $key => $all)
-                        @if($key%2==0)
-                            <div class="single__product">
-                                <!-- Start Single Product -->
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="product product__style--3">
-                                        <div class="product__thumb">
-                                            <a class="first__img" href="#"><img src="{{@$all_book[$key]['image']}}" alt="product image"></a>
-                                            <div class="hot__box">
-                                                <span class="hot-label">HOT</span>
-                                            </div>
+                        <div class="single__product">
+                            <!-- Start Single Product -->
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <div class="product product__style--3">
+                                    <div class="product__thumb">
+                                        <a class="first__img" href="{{ route('detail', $all['book_id']) }}"><img src="{{@$all['image']}}" alt="product image"></a>
+                                        <div class="hot__box">
+                                            <span class="hot-label">HOT</span>
                                         </div>
-                                        <div class="product__content content--center content--center">
-                                            <h4><a href="{{route('detail', @$all['book_id'])}}">{{@$all_book[$key]['title']}}</a></h4>
-                                            <ul class="prize d-flex">
-                                                <li>{{@$all_book[$key]['final_price']}}</li>
-                                                <li class="old_prize">{{@$all_book[$key]['price_regular']}}</li>
+                                    </div>
+                                    <div class="product__content content--center content--center">
+                                        <h4><a href="{{route('detail', @$all['book_id'])}}">{{@$all['title']}}</a></h4>
+                                        <ul class="prize d-flex">
+                                            <li>{{@$all['final_price']}}</li>
+                                            <li class="old_prize">{{@$all['price_regular']}}</li>
+                                        </ul>
+                                        <div class="product__hover--content">
+                                            <ul class="rating d-flex">
+                                                <li class="on"><i class="fa fa-star-o"></i></li>
+                                                <li class="on"><i class="fa fa-star-o"></i></li>
+                                                <li class="on"><i class="fa fa-star-o"></i></li>
+                                                <li><i class="fa fa-star-o"></i></li>
+                                                <li><i class="fa fa-star-o"></i></li>
                                             </ul>
-                                            <div class="product__hover--content">
-                                                <ul class="rating d-flex">
-                                                    <li class="on"><i class="fa fa-star-o"></i></li>
-                                                    <li class="on"><i class="fa fa-star-o"></i></li>
-                                                    <li class="on"><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                </ul>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Start Single Product -->
                             </div>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="product__indicator--4 arrows_style owl-carousel owl-theme">
-                    @foreach($all_book as $key => $all)
-                        @if($key%2==1)
-                            <div class="single__product">
-                                <!-- Start Single Product -->
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="product product__style--3">
-                                        <div class="product__thumb">
-                                            <a class="first__img" href="#"><img src="{{@$all_book[$key]['image']}}" alt="product image"></a>
-                                            <a class="second__img animation1" href="{{route('detail', $all['book_id'])}}"><img src="{{@$all_book[$key]['image']}}" alt="product image"></a>
-                                            <div class="hot__box">
-                                                <span class="hot-label">HOT</span>
-                                            </div>
-                                        </div>
-                                        <div class="product__content content--center content--center">
-                                            <h4><a href="{{route('detail', $all['book_id'])}}">{{@$all_book[$key]['title']}}</a></h4>
-                                            <ul class="prize d-flex">
-                                                <li>{{@$all_book[$key]['final_price']}}</li>
-                                                <li class="old_prize">{{@$all_book[$key]['price_regular']}}</li>
-                                            </ul>
-                                            <div class="product__hover--content">
-                                                <ul class="rating d-flex">
-                                                    <li class="on"><i class="fa fa-star-o"></i></li>
-                                                    <li class="on"><i class="fa fa-star-o"></i></li>
-                                                    <li class="on"><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Start Single Product -->
-                            </div>
-                        @endif
+                            <!-- Start Single Product -->
+                        </div>
                     @endforeach
                 </div>
             </div>

@@ -12,7 +12,7 @@
         <!-- Start Single Tab Content -->
 
         <div class="furniture--4 border--round arrows_style owl-carousel owl-theme row mt--50">
-        @foreach($all_book as $key => $all)
+        @foreach(array_reverse($all_book) as $key => $all)
             <!-- Start Single Product -->
                 <div class="product product__style--3">
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">

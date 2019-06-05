@@ -55,7 +55,7 @@
                             <!-- menu -->
                             <div id="myDropdown" class="dropdown-content">
                                 <a href="" id="editComment" data-toggle="tab" role="tab" data-content="{{ $key }}">Chỉnh sửa</a>
-                                <a href="{{ route('deletecomment', $comment['book_id']) }}">Xóa</a>
+                                <a href="{{ route('deletecomment', $key) }}">Xóa</a>
                             </div>
                         </div>
                     @endif

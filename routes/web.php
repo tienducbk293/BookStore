@@ -30,7 +30,7 @@ Route::get('add-like/{id}', 'LikeController@addLike')->name('addlike');
 Route::get('list-like/{key}', 'LikeController@getListLike')->name('listlike');
 Route::get('comment', 'CommentController@comment')->name('comment');
 Route::post('comment/{id}', 'CommentController@postComment')->name('comment');
-Route::get('delete-comment/{id}', 'CommentController@deleteComment')->name('deletecomment');
+Route::get('delete-comment/{key}', 'CommentController@deleteComment')->name('deletecomment');
 Route::post('edit-comment/{id}', 'CommentController@editComment')->name('editcomment');
 Route::post('reply/{id}', 'CommentController@reply')->name('reply');
 Route::get('rate', 'CommentController@rate')->name('rate');

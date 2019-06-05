@@ -28,30 +28,12 @@
                 </div>
             </div>
         </aside>
-        <aside class="wedget__categories poroduct--compare">
-            <h3 class="wedget__title">Compare</h3>
-            <ul>
-                <li><a href="single-product.php#">x</a><a href="single-product.php#">Condimentum posuere</a></li>
-                <li><a href="single-product.php#">x</a><a href="single-product.php#">Condimentum posuere</a></li>
-                <li><a href="single-product.php#">x</a><a href="single-product.php#">Dignissim venenatis</a></li>
-            </ul>
-        </aside>
         <aside class="wedget__categories poroduct--tag">
-            <h3 class="wedget__title">Product Tags</h3>
+            <h3 class="wedget__title">Thẻ sản phẩm</h3>
             <ul>
-                <li><a href="single-product.php#">Biography</a></li>
-                <li><a href="single-product.php#">Business</a></li>
-                <li><a href="single-product.php#">Cookbooks</a></li>
-                <li><a href="single-product.php#">Health & Fitness</a></li>
-                <li><a href="single-product.php#">History</a></li>
-                <li><a href="single-product.php#">Mystery</a></li>
-                <li><a href="single-product.php#">Inspiration</a></li>
-                <li><a href="single-product.php#">Religion</a></li>
-                <li><a href="single-product.php#">Fiction</a></li>
-                <li><a href="single-product.php#">Fantasy</a></li>
-                <li><a href="single-product.php#">Music</a></li>
-                <li><a href="single-product.php#">Toys</a></li>
-                <li><a href="single-product.php#">Hoodies</a></li>
+                @foreach($categories as $key => $category)
+                    <li><a href="{{ route('category', $category['slug']) }}">{{ $category['category_name'] }}</a></li>
+                @endforeach
             </ul>
         </aside>
         <aside class="wedget__categories sidebar--banner">
