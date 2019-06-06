@@ -43,7 +43,18 @@
 
                                     <?php
                                     $total = $details['price'] * $details['quantity'];
-                                    $totals += $total;
+                                    if (strpos($total, ".") !== false) {
+                                        $explode = explode(".", $total);
+                                        if (strlen($explode[1]) == 1) {
+                                            $totals = $total."00 đ";
+                                        } elseif(strlen($explode[1]) == 2) {
+                                            $totals= $total."0 đ";
+                                        } else {
+                                            $totals = $total." đ";
+                                        }
+                                    } else {
+                                        $totals = $total.".000 đ";
+                                    }
                                     ?>
 
                                     <tr>
@@ -52,7 +63,7 @@
                                         <td class="product-price"><span class="amount">{{ $details['price'] }}</span></td>
                                         <td class="product-quantity"><input type="number" value="{{ $details['quantity'] }}" class="form-control quantity"></td>
                                         <td class="product-subtotal">
-                                            <span>{{ @$total }} đ</span>
+                                            <span>{{ @$totals }}</span>
                                         </td>
                                         <td class="actions" data-th="" id="update-cart">
                                             <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}" id="update-cart"><i class="fa fa-refresh"></i></button>
@@ -78,7 +89,7 @@
                         <div class="cart__total__amount">
                             <span>Tổng cộng</span>
                             <span>
-                                <span>{{ @$totals }} đ</span>
+                                <span>{{ @$total_amount }}</span>
                             </span>
                         </div>
                     </div>

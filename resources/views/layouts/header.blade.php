@@ -131,7 +131,11 @@
                                         <div class="switcher-currency-trigger">
                                             <div class="setting__menu">
                                                 @if(Session::has('token') && Session::get('login') == true)
-                                                    <span><a href="{{ route('dashboard') }}">{{Session::get('user_name')}}</a></span>
+                                                    @if(Session::get('level') == 1)
+                                                        <span><a href="{{ route('admin.dashboard') }}"><b>{{Session::get('user_name')}}</b></a></span>
+                                                    @else
+                                                        <span><a href="">{{Session::get('user_name')}}</a></span>
+                                                    @endif
                                                     <span><a href="{{route('logout')}}">Đăng xuất</a></span>
                                                 @else
                                                     <span><a href="{{route('login')}}">Đăng nhập</a></span>

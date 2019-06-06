@@ -36,7 +36,7 @@ Route::post('reply/{id}', 'CommentController@reply')->name('reply');
 Route::get('rate', 'CommentController@rate')->name('rate');
 Route::post('rate', 'CommentController@postRate')->name('rate');
 Route::get('order', 'OrderController@order')->name('order');
-Route::post('order', 'OrderController@postOrder')->name('order');
+Route::post('order', 'OrderController@postOrder')->name('postOrder');
 Route::get('check-quantity', 'OrderController@checkQuantity');
 Route::get('destroy', 'CartController@destroy');
 Route::get('delete-item-cart', 'CartController@deleteItemCart');
@@ -55,8 +55,28 @@ Route::prefix('book')->group(function () {
     Route::get('unique', 'BookController@unique_array');
     Route::get('test', 'BookController@test');
 });
-Route::prefix('admin')->group(function () {
-    Route::get('dashboard', 'HomeController@admin')->name('dashboard');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('dashboard', 'DashboardController@dashboard')->name('admin.dashboard');
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('list', 'UserController@getList')->name('user.list');
+        Route::get('add', 'UserController@getAdd')->name('user.add');
+        Route::post('add', 'UserController@postAdd')->name('user.postAdd');
+        Route::get('edit/{key}', 'UserController@getEdit')->name('user.edit');
+        Route::post('edit/{key}', 'UserController@postEdit')->name('user.postEdit');
+        Route::get('delete/{key}', 'UserController@delete')->name('user.delete');
+    });
+    Route::group(['prefix' => 'book'], function () {
+        Route::get('list', 'BookController@getList')->name('book.list');
+        Route::get('add', 'BookController@getAdd')->name('book.add');
+        Route::post('add', 'BookController@postAdd')->name('book.postAdd');
+        Route::get('edit/{id}', 'BookController@getEdit')->name('book.edit');
+        Route::post('edit/{id}/{key}', 'BookController@postEdit')->name('book.postEdit');
+        Route::get('delete/{key}', 'BookController@delete')->name('book.delete');
+    });
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('list', 'OrderController@getList')->name('order.list');
+        Route::get('delete/{key}', 'OrderController@delete')->name('order.delete');
+    });
 });
 Route::get('admin', 'HomeController@admin')->name('admin');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');

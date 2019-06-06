@@ -22,4 +22,8 @@ class Order extends Model
     public function getDatabase() {
         return $data = $this->database->getReference($this->dbname);
     }
+
+    public function getAll() {
+        return $data = $this->database->getReference($this->dbname)->getValue();
+    }
 }
