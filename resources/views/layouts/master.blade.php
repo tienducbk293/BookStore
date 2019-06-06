@@ -28,7 +28,7 @@
 
     <!-- Modernizer js -->
     <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-    <title>Book Store</title>
+    <title>Basa | Bookstore</title>
 </head>
 <body>
     <!--[if lte IE 9]>

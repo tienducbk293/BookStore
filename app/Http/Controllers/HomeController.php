@@ -25,10 +25,6 @@ class HomeController extends Controller
         $this->commentData = $comment;
     }
 
-    public function admin () {
-        return view('admin.layout.master');
-    }
-
     public function index () {
         $all_book = $this->bookData->getAll();
         return view('page.homepage', compact('all_book'));

@@ -13,7 +13,24 @@ class CartController extends Controller
     }
 
     public function cart() {
-        return view('page.cart');
+        $carts = session()->get('cart');
+        $total = 0;
+        foreach ($carts as $key => $cart) {
+            $total += $cart['price'] * $cart['quantity'];
+        }
+        if (strpos($total, ".") !== false) {
+            $explode = explode(".", $total);
+            if (strlen($explode[1]) == 1) {
+                $total_amount = $total."00 đ";
+            } elseif(strlen($explode[1]) == 2) {
+                $total_amount = $total."0 đ";
+            } else {
+                $total_amount = $total." đ";
+            }
+        } else {
+            $total_amount = $total.".000 đ";
+        }
+        return view('page.cart', compact('total_amount'));
     }
 
     public function postAdd(Request $request, $id) {

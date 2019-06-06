@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Category;
 use DiDom\Document;
+use Illuminate\Http\Request;
 use mysql_xdevapi\Session;
 use Curl\Curl;
 use Google\Cloud\Firestore\FirestoreClient;
@@ -219,5 +220,70 @@ class BookController extends Controller
         } catch (\Exception $exception) {
             echo 'getHtml Exception: '. $exception->getMessage(), PHP_EOL;
         }
+    }
+
+    public function getList() {
+        $list_books = $this->book->getAll();
+        return view('admin.book.list', compact('list_books'));
+    }
+
+    public function getAdd() {
+        $categories = $this->category->getAll();
+        return view('admin.book.add', compact('categories'));
+    }
+
+    public function postAdd(Request $request) {
+        $category = $this->category->getDatabase()->getChild($request->category)->getValue();
+        $books = $this->book->getAll();
+        foreach ($books as $key => $book) {
+            if ($book['book_id'] !== $request->input('book_id')) {
+                $book_id = $request->input('book_id');
+            }
+        }
+        $book = [
+            'book_id' => $book_id,
+            'category' => $category['category_name'],
+            'slug' => $category['slug'],
+            'title' => $request->input('title'),
+            'author' => $request->input('author'),
+            'price_regular' => $request->input('price_regular'),
+            'final_price' => $request->input('final_price'),
+            'quantity' => $request->input('quantity'),
+            'image' => $request->input('image'),
+            'detail_image' => $request->input('detail_image')
+        ];
+        $this->book->getDatabase()->push($book);
+        return redirect()->route('book.list')->with(['flash_message', 'Thêm mới sách thành công']);
+    }
+
+    public function getEdit ($id) {
+        $categories = $this->category->getAll();
+        $child = 'book_id';
+        $book = $this->book->orderByChild($child, $id);
+        $key = key($book);
+        return view('admin.book.edit', compact('book', 'categories', 'key'));
+    }
+
+    public function postEdit (Request $request, $id, $key) {
+        $category = $this->category->getDatabase()->getChild($request->category)->getValue();
+        $book = [
+            'book_id' => $id,
+            'category' => $category['category_name'],
+            'slug' => $category['slug'],
+            'title' => $request->input('title'),
+            'author' => $request->input('author'),
+            'price_regular' => $request->input('price_regular'),
+            'final_price' => $request->input('final_price'),
+            'quantity' => $request->input('quantity'),
+            'image' => $request->input('image'),
+            'detail_image' => $request->input('detail_image')
+        ];
+        $this->book->getDatabase()->getChild($key)->set($book);
+        return redirect()->route('book.list')->with(['flash_message', 'Thay đổi thông tin thành công']);
+    }
+
+    public function delete($key) {
+        $this->book->getDatabase()->getChild($key)->remove();
+        return redirect()->route('user.list')->with(['flash_message', 'Xóa sản phẩm thành công']);
     }
 }

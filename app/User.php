@@ -43,6 +43,10 @@ class User extends Model
         return $this->firebase->getDatabase()->getReference($this->dbname)->orderByChild($child)->equalTo($value)->getValue();
     }
 
+    public function orderByKey($value) {
+        return $this->firebase->getDatabase()->getReference($this->dbname)->orderByKey()->equalTo($value)->getValue();
+    }
+
     public function get(int $userID = null) {
         if (empty($userID) || !isset($userID)) { return false; }
         if ($this->firebase->getDatabase()->getReference($this->dbname)->getSnapshot()->hasChild($userID)) {
@@ -55,7 +59,7 @@ class User extends Model
     public function insert(array $data) {
         if (empty($data) || !isset($data)) { return FALSE; }
         foreach ($data as $key => $value){
-            $this->firebase->getDatabase()->getReference()->getChild($this->dbname)->getChild($key)->set($value);
+            $this->firebase->getDatabase()->getReference($this->dbname)->getChild($key)->set($value);
         }
         return TRUE;
     }

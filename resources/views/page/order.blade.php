@@ -68,11 +68,12 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-12">
-                    <form action="{{ route('order') }}" method="post">
+                    <form action="{{ route('postOrder') }}" method="post">
                         <div class="customer_details">
                             <h3>Chi tiết thanh toán</h3>
                             <div class="customar__field">
                                 <input name="_token" type="hidden" value="{{csrf_token()}}" />
+                                <input type="hidden" name="total_amount" value="{{ @$total_amount }}">
                                 <div class="margin_between">
                                     <div class="input_box space_between">
                                         <label>Họ <span>*</span></label>
@@ -141,13 +142,24 @@
                                 @foreach(session('cart') as $id => $carts)
                                     <?php
                                     $total = $carts['price'] * $carts['quantity'];
-                                    $totals += $total;
+                                    if (strpos($total, ".") !== false) {
+                                        $explode = explode(".", $total);
+                                        if (strlen($explode[1]) == 1) {
+                                            $totals = $total."00 đ";
+                                        } elseif(strlen($explode[1]) == 2) {
+                                            $totals= $total."0 đ";
+                                        } else {
+                                            $totals = $total." đ";
+                                        }
+                                    } else {
+                                        $totals = $total.".000 đ";
+                                    }
                                     ?>
                                     <li>
                                         <img src="{{@$carts['image']}}" alt="product images">
                                         {{ @$carts['title'] }} × {{ @$carts['quantity'] }}
                                         <span>
-                                            <span>{{ @$total }} đ</span>
+                                            {{ @$totals }}
                                         </span>
                                     </li>
                                 @endforeach
@@ -155,13 +167,13 @@
                         </ul>
                         <ul class="shipping__method">
                             <li>Tổng đặt hàng <span>
-                                    <span>{{ @$totals }} đ</span>
+                                    {{ @$total_amount }}
                                 </span>
                             </li>
                         </ul>
                         <ul class="total__amount">
                             <li>Tổng đơn hàng <span>
-                                    <span>{{ @$totals }} đ</span>
+                                    {{ @$total_amount }}
                                 </span>
                             </li>
                         </ul>
