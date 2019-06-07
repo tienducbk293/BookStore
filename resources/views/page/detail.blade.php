@@ -88,7 +88,7 @@
                                             </div>
                                             <div class="product-share">
                                                 <ul>
-                                                    <li class="categories-title">Share :</li>
+                                                    <li class="categories-title">Chia sẻ :</li>
                                                     <li>
                                                         <a href="#">
                                                             <i class="icon-social-twitter icons"></i>

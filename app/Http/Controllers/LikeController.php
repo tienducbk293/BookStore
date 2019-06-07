@@ -44,7 +44,7 @@ class LikeController extends Controller
     }
     public function getListLike($key) {
         $child = 'user_key';
-        $data = $this->likeData->orderByChild($child, $key);
+        $data = $this->likeData->orderByChild($child, $key[0]);
         $likes = array_values($data);
         $books = array();
         foreach ($likes as $key => $like) {

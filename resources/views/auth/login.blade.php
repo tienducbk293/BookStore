@@ -40,15 +40,12 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                        </label>
                                     </div>
                                 </div>
                                 <div class="actions">
                                     <input type="submit" name="login" value="Đăng nhập" class="btn btn-primary block full-width m-b" data-disable-with="Loading...">
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        Forgot Your Password?
+                                    <a class="btn btn-link" href="{{ route('register') }}">
+                                        Đăng ký tài khoản?
                                     </a>
                                 </div>
                             </form>
