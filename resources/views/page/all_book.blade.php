@@ -9,17 +9,6 @@
                 </div>
             </div>
         </div>
-        <div class="row mt--50">
-            <div class="col-md-12 col-lg-12 col-sm-12">
-                <div class="product__nav nav justify-content-center" role="tablist">
-                    <a class="nav-item nav-link active" data-toggle="tab" href="index.html#nav-all" role="tab">ALL</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="index.html#nav-biographic" role="tab">BIOGRAPHIC</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="index.html#nav-adventure" role="tab">ADVENTURE</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="index.html#nav-children" role="tab">CHILDREN</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="index.html#nav-cook" role="tab">COOK</a>
-                </div>
-            </div>
-        </div>
         <div class="tab__container mt--60">
             <!-- Start Single Tab Content -->
             <div class="row single__tab tab-pane fade show active" id="nav-all" role="tabpanel">
@@ -41,15 +30,6 @@
                                             <li>{{@$all['final_price']}}</li>
                                             <li class="old_prize">{{@$all['price_regular']}}</li>
                                         </ul>
-                                        <div class="product__hover--content">
-                                            <ul class="rating d-flex">
-                                                <li class="on"><i class="fa fa-star-o"></i></li>
-                                                <li class="on"><i class="fa fa-star-o"></i></li>
-                                                <li class="on"><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

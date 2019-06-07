@@ -7,9 +7,9 @@
                 <div class="col-lg-12">
                     <div class="slider__content">
                         <div class="contentbox">
-                            <h2>Buy <span>your </span></h2>
-                            <h2>favourite <span>Book </span></h2>
-                            <h2>from <span>Here </span></h2>
+                            <h3>Đặt <span>mua </span></h3>
+                            <h3>mặt hàng <span>Sách </span></h3>
+                            <h3>tại <span>Đây </span></h3>
                             <a class="shopbtn" href="#">shop now</a>
                         </div>
                     </div>

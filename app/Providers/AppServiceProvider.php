@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('layouts.header', 'App\Http\ViewComposer\CategoryComposer');
         view()->composer('page.list_category', 'App\Http\ViewComposer\CategoryComposer');
         view()->composer('page.search', 'App\Http\ViewComposer\CategoryComposer');
+        view()->composer('page.all_book', 'App\Http\ViewComposer\CategoryComposer');
     }
 
     /**

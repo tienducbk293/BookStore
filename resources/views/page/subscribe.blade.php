@@ -7,14 +7,13 @@
                     <h2>Đến với chúng tôi</h2>
                 </div>
                 <div class="newsletter__block text-center">
-                    {{--<p>Subscribe to our newsletters now and stay up-to-date with new collections, the latest lookbooks and exclusive offers.</p>--}}
                     <p>Theo dõi các bản tin của chúng tôi ngay bây giờ và cập nhật với các bộ sưu tập mới, lookbook mới nhất và cung cấp độc quyền.</p>
-                    <form action="index.html#">
-                        <div class="newsletter__box">
-                            <input type="email" placeholder="Nhập e-mail của bạn">
-                            <button>Theo dõi</button>
-                        </div>
-                    </form>
+                    {{--<form action="index.html#">--}}
+                        {{--<div class="newsletter__box">--}}
+                            {{--<input type="email" placeholder="Nhập e-mail của bạn">--}}
+                            {{--<button>Theo dõi</button>--}}
+                        {{--</div>--}}
+                    {{--</form>--}}
                 </div>
             </div>
         </div>

@@ -30,7 +30,7 @@
                                 <th class="product-thumbnail">Ảnh</th>
                                 <th class="product-name">Sách</th>
                                 <th class="product-name">Tác giả</th>
-                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-price">Giá</th>
                                 <th class="product-price">Giá</th>
                             </tr>
                             </thead>
@@ -40,7 +40,7 @@
                                     <td class="product-thumbnail"><a href="{{route('detail', $book['book_id'])}}"><img src="{{ $book['image'] }}" alt="product img"></a></td>
                                     <td class="product-name"><a href="{{route('detail', $book['book_id'])}}">{{ $book['title'] }}</a></td>
                                     <td class="product-name"><a href="#">{{ $book['author'] }}</a></td>
-                                    <td class="product-quantity"><span class="amount">{{ $book['quantity'] }}</span></td>
+                                    <td class="product-price"><span class="amount">{{ $book['price_regular'] }}</span></td>
                                     <td class="product-price"><span class="amount">{{ $book['final_price'] }}</span></td>
                                 </tr>
                             @endforeach

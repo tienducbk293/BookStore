@@ -17,7 +17,7 @@
                 <nav class="mainmenu__nav">
                     <ul class="meninmenu d-flex justify-content-start" >
                         <li class="drop with--one--item" style="position: relative;"><a href="{{route('homepage')}}">Trang chủ</a></li>
-                        <li class="drop"><a href="index.html#">Cửa hàng</a>
+                        <li class="drop"><a href="#">Cửa hàng</a>
                             <div class="megamenu dropdown">
                                 <ul class="item item01">
                                     @foreach($categories as $key => $category)
@@ -34,18 +34,8 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="drop"><a href="blog.html">Tin tức</a>
-                            <div class="megamenu dropdown">
-                                <ul class="item item01">
-                                    <li><a href="blog.html">Blog Page</a></li>
-                                    <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-no-sidebar.html">Blog No Sidebar</a></li>
-                                    <li><a href="blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li><a href="about.html">Về chúng tôi</a></li>
-                        <li><a href="contact.html">Liên hệ</a></li>
+                        <li><a href="#">Về chúng tôi</a></li>
+                        <li><a href="#">Liên hệ</a></li>
                     </ul>
                 </nav>
             </div>
@@ -55,7 +45,7 @@
                     <?php
                     $user_key = session()->get('user_key');
                     ?>
-                    <li class="wishlist"><a href="{{ route('listlike', $user_key[0]) }}"></a></li>
+                    <li class="wishlist"><a href="{{ route('listlike', $user_key) }}"></a></li>
                     <li class="shopcart">
                         <a class="cartbox_active" id="cartinfo_active" href="{{ route('cart') }}">
                             <span class="product_qun">

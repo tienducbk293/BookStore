@@ -3024,6 +3024,7 @@ h3.widget-title-modal {
   display: flex; }
 .slider__content {
   margin-top: 60px;
+  font-family: 'Open Sans', sans-serif;
 }
 .contentbox > h3 {
   color: #ce7852;
